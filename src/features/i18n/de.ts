@@ -32,7 +32,7 @@ export const de: Record<string, string> = {
   p2p: '2. Person Plural (ihr)',
   p3p: '3. Person Plural (sie)',
 
-  present: 'Präsens',
+  present: 'Gegenwart',
   past: 'Vergangenheit',
   future: 'Zukunft',
 

@@ -9,6 +9,7 @@ const PRONOUNS: Record<string, string> = {
   '1s': 'მე', '2s': 'შენ', '3s': 'ის',
   '1p': 'ჩვენ', '2p': 'თქვენ', '3p': 'ისინი',
 };
+const TENSE_ORDER = ['past', 'present', 'future'] as const;
 
 interface QuizCallbacks {
   onComplete: (state: QuizState) => void;
@@ -109,8 +110,16 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
     verbName.textContent = t(question.verb === 'be' ? 'verbBe' : 'verbGo');
 
     const tenseRow = document.createElement('div');
-    tenseRow.className = styles.tensePersonRow;
-    tenseRow.textContent = t(question.tense);
+    tenseRow.className = styles.tenseRow;
+    tenseRow.setAttribute('aria-label', t(question.tense));
+
+    for (const tense of TENSE_ORDER) {
+      const tensePill = document.createElement('span');
+      tensePill.className =
+        styles.tensePill + (tense === question.tense ? ' ' + styles.tensePillActive : '');
+      tensePill.textContent = t(tense);
+      tenseRow.appendChild(tensePill);
+    }
 
     meta.append(verbName, tenseRow);
 

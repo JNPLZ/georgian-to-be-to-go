@@ -26,6 +26,14 @@ function makeState(prefix: 'mi' | 'tsa'): QuizState {
 }
 
 describe('quiz prefix display', () => {
+  it('shows all three tenses in the quiz header', () => {
+    const screen = createQuizScreen(makeState('mi'), { onComplete() {} });
+
+    expect(screen.element.textContent).toContain('Past');
+    expect(screen.element.textContent).toContain('Present');
+    expect(screen.element.textContent).toContain('Future');
+  });
+
   it('shows the same general-going label for მი and წა', () => {
     const miScreen = createQuizScreen(makeState('mi'), { onComplete() {} });
     const tsaScreen = createQuizScreen(makeState('tsa'), { onComplete() {} });
