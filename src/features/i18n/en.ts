@@ -1,11 +1,14 @@
 export const en: Record<string, string> = {
   appTitle: 'Georgian Verbs',
-  home: 'Home',
+  home: 'Quiz',
+  quitQuiz: 'Quit',
   cheatsheet: 'Cheatsheet',
 
   startTitle: 'Practice Quiz',
   startSubtitle: 'Test your Georgian verb conjugations',
   selectVerbs: 'Verbs to practise',
+  selectTenses: 'Tenses to practise',
+  selectAtLeastOneTense: 'Please select at least one tense.',
   verbBe: 'to be',
   verbGo: 'to go',
   questionCount: 'Questions per round',

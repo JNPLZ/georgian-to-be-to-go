@@ -1,11 +1,14 @@
 export const ru: Record<string, string> = {
   appTitle: 'Грузинские глаголы',
-  home: 'Главная',
+  home: 'Квиз',
+  quitQuiz: 'Выйти',
   cheatsheet: 'Шпаргалка',
 
   startTitle: 'Викторина',
   startSubtitle: 'Практика спряжения грузинских глаголов',
   selectVerbs: 'Глаголы для практики',
+  selectTenses: 'Времена для практики',
+  selectAtLeastOneTense: 'Пожалуйста, выберите хотя бы одно время.',
   verbBe: 'быть',
   verbGo: 'идти',
   questionCount: 'Вопросов за раунд',

@@ -6,12 +6,20 @@ const SETTINGS_KEY = 'georgian_quiz_settings';
 const DEFAULT_SETTINGS: QuizSettings = {
   questionCount: 10,
   verbs: ['be', 'go'],
+  tenses: ['present', 'past', 'future'],
 };
 
 export function loadSettings(): QuizSettings {
   try {
     const raw = localStorage.getItem(SETTINGS_KEY);
-    if (raw) return JSON.parse(raw) as QuizSettings;
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<QuizSettings>;
+      // Only restore questionCount — verbs and tenses always default to all-selected on fresh load
+      return {
+        ...DEFAULT_SETTINGS,
+        questionCount: parsed.questionCount ?? DEFAULT_SETTINGS.questionCount,
+      };
+    }
   } catch {
     // ignore
   }
@@ -19,7 +27,8 @@ export function loadSettings(): QuizSettings {
 }
 
 export function saveSettings(settings: QuizSettings): void {
-  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  // Only persist questionCount; verbs/tenses reset to defaults on every reload
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify({ questionCount: settings.questionCount }));
 }
 
 export function createQuizState(settings: QuizSettings): QuizState {

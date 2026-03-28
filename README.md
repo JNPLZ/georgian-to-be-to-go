@@ -4,13 +4,15 @@ A small flashcard-style quiz app for practising Georgian verb conjugations at A1
 
 ## Features
 
-- **Quiz mode** — random questions across present, past (aorist), and future for all six grammatical persons
-- **Directional prefixes** — all directional prefixes for "to go" included; quiz shows a direction icon without revealing the exact prefix, and accepts any valid conjugated form as correct
-- **Instant feedback** — correct answers trigger a pop animation; wrong answers show the correct form with a shake animation
+- **Quiz mode** — random questions, balanced across verbs, tenses, and prefixes; six grammatical persons
+- **Configurable per round** — choose which verbs (to be / to go) and tenses (present, past, future) to practise; all selected by default on every load
+- **Directional prefixes** — all nine directional prefixes for "to go" included; quiz shows a direction icon and accepts any valid conjugated form as correct
+- **Instant feedback** — correct answers auto-advance with a pop animation; wrong answers show the correct form with a shake animation
 - **Progress tracking** — live score and question counter during the round, summary at the end
+- **Quit at any time** — click the app title or the "✕ Quit" button in the nav to exit a round
 - **Cheatsheet** — full conjugation tables for both verbs; "to go" grouped by direction with a combined მი-/წა- entry (since they share forms) and scroll-fade indicators on small screens
 - **UI language** — English (default), German, Russian; persisted to localStorage
-- **Settings persistence** — verb selection and question count are saved between sessions
+- **Question count** — 10 / 20 / 30 questions per round; preference is saved between sessions
 - **No tracking, no cookies**
 
 > **Note:** Answers must be typed in Georgian script (Mkhedruli). Add a Georgian keyboard layout in your OS settings before you start.

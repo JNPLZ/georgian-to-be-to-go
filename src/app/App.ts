@@ -80,6 +80,7 @@ export function initApp(root: HTMLElement): void {
   }
 
   function navigateTo(screen: Screen): void {
+    if (currentQuiz) { currentQuiz.destroy(); currentQuiz = null; }
     currentScreen = screen;
     renderNav();
     renderScreen();

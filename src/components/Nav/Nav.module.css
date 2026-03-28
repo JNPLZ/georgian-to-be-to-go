@@ -20,10 +20,18 @@
   color: var(--color-accent);
   white-space: nowrap;
   flex-shrink: 0;
-  /* Truncate on very small screens */
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 120px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.title:hover {
+  opacity: 0.75;
 }
 
 @media (max-width: 400px) {
@@ -58,6 +66,29 @@
 .navBtn.active {
   color: var(--color-accent);
   background-color: var(--color-accent-subtle);
+}
+
+/* Quit button — visible only during quiz */
+.quitBtn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: none;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+  white-space: nowrap;
+}
+
+.quitBtn:hover {
+  color: var(--color-error);
+  border-color: var(--color-error);
 }
 
 /* Language <select> */

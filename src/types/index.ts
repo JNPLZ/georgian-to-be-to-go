@@ -30,6 +30,7 @@ export interface Question {
 export interface QuizSettings {
   questionCount: 10 | 20 | 30;
   verbs: Verb[];
+  tenses: Tense[];
 }
 
 export interface QuizState {

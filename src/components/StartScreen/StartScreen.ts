@@ -1,4 +1,4 @@
-import type { QuizSettings, Verb } from '../../types/index';
+import type { QuizSettings, Verb, Tense } from '../../types/index';
 import { t } from '../../features/i18n/i18n';
 import styles from './StartScreen.module.css';
 
@@ -14,6 +14,7 @@ export function createStartScreen(
 ): HTMLElement {
   let selectedCount = initialSettings.questionCount;
   let selectedVerbs = new Set<Verb>(initialSettings.verbs);
+  let selectedTenses = new Set<Tense>(initialSettings.tenses);
   let errorVisible = false;
 
   const screen = document.createElement('div');
@@ -62,6 +63,39 @@ export function createStartScreen(
 
   verbSection.append(verbLabel, checkboxList);
 
+  // Tense section
+  const tenseSection = document.createElement('section');
+  tenseSection.className = styles.section;
+  const tenseLabel = document.createElement('span');
+  tenseLabel.className = styles.sectionLabel;
+  tenseLabel.textContent = t('selectTenses');
+  const tenseCheckboxList = document.createElement('div');
+  tenseCheckboxList.className = styles.checkboxList;
+
+  const TENSES: Array<{ key: Tense; labelKey: string }> = [
+    { key: 'present', labelKey: 'present' },
+    { key: 'past',    labelKey: 'past' },
+    { key: 'future',  labelKey: 'future' },
+  ];
+
+  for (const { key, labelKey } of TENSES) {
+    const label = document.createElement('label');
+    label.className = styles.checkboxLabel;
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = selectedTenses.has(key);
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) selectedTenses.add(key);
+      else selectedTenses.delete(key);
+      errorMsg.textContent = '';
+    });
+    const text = document.createTextNode(t(labelKey));
+    label.append(checkbox, text);
+    tenseCheckboxList.appendChild(label);
+  }
+
+  tenseSection.append(tenseLabel, tenseCheckboxList);
+
   // Question count section
   const countSection = document.createElement('section');
   countSection.className = styles.section;
@@ -108,9 +142,13 @@ export function createStartScreen(
       errorMsg.textContent = t('selectAtLeastOne');
       return;
     }
-    callbacks.onStart({ questionCount: selectedCount, verbs: [...selectedVerbs] });
+    if (selectedTenses.size === 0) {
+      errorMsg.textContent = t('selectAtLeastOneTense');
+      return;
+    }
+    callbacks.onStart({ questionCount: selectedCount, verbs: [...selectedVerbs], tenses: [...selectedTenses] });
   });
 
-  screen.append(header, verbSection, countSection, errorMsg, startBtn);
+  screen.append(header, verbSection, tenseSection, countSection, errorMsg, startBtn);
   return screen;
 }

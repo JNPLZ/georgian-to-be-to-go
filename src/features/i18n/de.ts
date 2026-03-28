@@ -1,11 +1,14 @@
 export const de: Record<string, string> = {
   appTitle: 'Georgische Verben',
-  home: 'Start',
+  home: 'Quiz',
+  quitQuiz: 'Beenden',
   cheatsheet: 'Spickzettel',
 
   startTitle: 'Quiz',
   startSubtitle: 'Georgische Verbformen üben',
   selectVerbs: 'Zu übende Verben',
+  selectTenses: 'Zu übende Zeitformen',
+  selectAtLeastOneTense: 'Bitte mindestens eine Zeitform auswählen.',
   verbBe: 'sein',
   verbGo: 'gehen',
   questionCount: 'Fragen pro Runde',

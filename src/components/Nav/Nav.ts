@@ -18,9 +18,12 @@ export function createNav(activeScreen: Screen, callbacks: NavCallbacks): HTMLEl
   nav.className = styles.nav;
   nav.setAttribute('aria-label', 'Main navigation');
 
-  const title = document.createElement('span');
+  // App title — always navigates to start (doubles as quit when in quiz)
+  const title = document.createElement('button');
   title.className = styles.title;
   title.textContent = t('appTitle');
+  title.setAttribute('aria-label', t('appTitle'));
+  title.addEventListener('click', () => callbacks.onNavigate('start'));
 
   const links = document.createElement('div');
   links.className = styles.links;
@@ -38,6 +41,13 @@ export function createNav(activeScreen: Screen, callbacks: NavCallbacks): HTMLEl
   cheatBtn.addEventListener('click', () => callbacks.onNavigate('cheatsheet'));
 
   links.append(homeBtn, cheatBtn);
+
+  // Quit button — only shown during an active quiz
+  const quitBtn = document.createElement('button');
+  quitBtn.className = styles.quitBtn;
+  quitBtn.innerHTML = `<span aria-hidden="true">✕</span> ${t('quitQuiz')}`;
+  quitBtn.setAttribute('aria-label', t('quitQuiz'));
+  quitBtn.addEventListener('click', () => callbacks.onNavigate('start'));
 
   // Language dropdown
   const langSelect = document.createElement('select');
@@ -58,6 +68,8 @@ export function createNav(activeScreen: Screen, callbacks: NavCallbacks): HTMLEl
     callbacks.onLangChange();
   });
 
-  nav.append(title, links, langSelect);
+  nav.append(title, links);
+  if (activeScreen === 'quiz') nav.appendChild(quitBtn);
+  nav.appendChild(langSelect);
   return nav;
 }
