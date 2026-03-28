@@ -43,11 +43,11 @@
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #31c6b7, #1697a3, #118880);
-  background-size: 200% auto;
+  background: linear-gradient(90deg, #2ab8b0, #1ea2a7, #178d98);
+  background-size: 155% auto;
   border-radius: var(--radius-pill);
   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: shimmer 3s linear infinite;
+  animation: shimmer 6.5s linear infinite;
 }
 
 @keyframes shimmer {

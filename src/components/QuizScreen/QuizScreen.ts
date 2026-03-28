@@ -105,16 +105,17 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
 
     // For "go" questions: icon + direction meaning (no Georgian script — accept any form)
     if (question.verb === 'go' && question.prefix) {
+      const usesGeneralGoing = question.prefix === 'mi' || question.prefix === 'tsa';
       const info = goPrefixInfo[question.prefix];
       const tag = document.createElement('div');
       tag.className = styles.directionTag;
 
       const iconSpan = document.createElement('span');
       iconSpan.className = styles.directionIcon;
-      iconSpan.innerHTML = prefixIcons[question.prefix];
+      iconSpan.innerHTML = prefixIcons[usesGeneralGoing ? 'mi' : question.prefix];
 
       const textSpan = document.createElement('span');
-      textSpan.textContent = t(info.meaningKey);
+      textSpan.textContent = t(usesGeneralGoing ? 'miTsaMeaning' : info.meaningKey);
 
       tag.append(iconSpan, textSpan);
       meta.appendChild(tag);
