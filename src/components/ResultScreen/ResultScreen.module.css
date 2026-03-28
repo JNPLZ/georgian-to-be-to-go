@@ -139,3 +139,52 @@
   transform: translateY(0);
   filter: brightness(0.97);
 }
+
+@media (max-width: 720px) {
+  .screen {
+    max-width: 520px;
+    padding: 1.35rem;
+  }
+
+  .scoreDisplay {
+    font-size: clamp(4rem, 18vw, 5.8rem);
+  }
+}
+
+@media (max-width: 560px) {
+  .screen {
+    padding: 1.1rem;
+    border-radius: var(--radius-xl);
+  }
+
+  .statsRow {
+    gap: 0.7rem;
+  }
+
+  .statBlock {
+    flex-basis: 100%;
+  }
+
+  .dotsRow {
+    padding: 0.85rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .screen {
+    padding: 0.95rem;
+  }
+
+  .scoreSub {
+    margin-bottom: var(--space-md);
+  }
+
+  .dot {
+    width: 24px;
+    height: 24px;
+  }
+
+  .newRoundBtn {
+    padding: 0.95rem var(--space-md);
+  }
+}

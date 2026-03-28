@@ -39,6 +39,19 @@ main {
   padding-bottom: var(--space-xl);
 }
 
+@media (max-width: 720px) {
+  main {
+    padding-top: calc(var(--nav-height) + 0.55rem);
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding-top: calc(var(--nav-height) + 0.35rem);
+    padding-bottom: var(--space-lg);
+  }
+}
+
 .georgian {
   font-family: var(--font-georgian);
 }

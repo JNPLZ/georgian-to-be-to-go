@@ -18,6 +18,7 @@
   box-shadow:
     0 10px 35px rgba(16, 34, 42, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.74);
+  justify-content: space-between;
 }
 
 .links {
@@ -25,6 +26,7 @@
   gap: 0.35rem;
   flex: 1;
   min-width: 0;
+  max-width: fit-content;
 }
 
 .actions {
@@ -33,6 +35,7 @@
   align-items: center;
   gap: 0.4rem;
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 .navBtn {
@@ -118,10 +121,28 @@
   outline-offset: 1px;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 760px) {
   .nav {
-    gap: 0.6rem;
-    padding-inline: 0.8rem;
+    padding-block: 0.6rem;
+    padding-inline: 0.85rem;
+    gap: 0.55rem;
+  }
+
+  .navBtn {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.82rem;
+  }
+
+  .quitBtn,
+  .langSelect {
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 620px) {
+  .nav {
+    gap: 0.45rem;
+    padding-inline: 0.7rem;
   }
 
   .links {
@@ -129,27 +150,47 @@
   }
 
   .navBtn {
-    padding-inline: 0.62rem;
-    font-size: 0.8rem;
+    padding: 0.46rem 0.62rem;
+    font-size: 0.78rem;
   }
 
   .quitBtn {
-    padding-inline: 0.58rem;
+    padding: 0.4rem 0.58rem;
   }
 
   .langSelect {
-    min-width: 68px;
+    min-width: 66px;
+    padding-left: 0.68rem;
+    padding-right: 1.55rem;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 460px) {
   .navBtn {
-    font-size: 0.76rem;
-    padding-inline: 0.52rem;
+    font-size: 0.74rem;
+    padding: 0.42rem 0.54rem;
   }
 
   .quitBtn,
   .langSelect {
     font-size: 0.74rem;
+  }
+
+  .actions {
+    gap: 0.3rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .nav {
+    padding-inline: 0.55rem;
+  }
+
+  .navBtn {
+    padding-inline: 0.48rem;
+  }
+
+  .langSelect {
+    min-width: 62px;
   }
 }

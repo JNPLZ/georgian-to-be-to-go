@@ -292,6 +292,40 @@
   line-height: 1.35;
 }
 
+@media (max-width: 820px) {
+  .screen {
+    padding-top: var(--space-sm);
+  }
+
+  .prefixExplainGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .title {
+    margin-bottom: var(--space-md);
+  }
+
+  .tabBar {
+    width: 100%;
+  }
+
+  .tabBtn {
+    flex: 1;
+    padding-inline: 1rem;
+  }
+
+  .prefixGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .table th,
+  .table td {
+    padding: 0.78rem 0.82rem;
+  }
+}
+
 @media (max-width: 560px) {
   .tabBar {
     width: 100%;
@@ -300,5 +334,38 @@
   .tabBtn {
     flex: 1;
     padding-inline: 1rem;
+  }
+
+  .prefixGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .prefixExplainGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tableFadeLeft,
+  .tableFadeRight {
+    width: 56px;
+  }
+}
+
+@media (max-width: 420px) {
+  .screen {
+    padding-inline: 0.75rem;
+  }
+
+  .tabBtn {
+    font-size: 0.82rem;
+    padding-inline: 0.7rem;
+  }
+
+  .table {
+    font-size: 0.9rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.72rem 0.75rem;
   }
 }

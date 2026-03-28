@@ -294,6 +294,75 @@
 
 .nextBtn:active { transform: translateY(0); }
 
+@media (max-width: 760px) {
+  .screen {
+    max-width: 580px;
+  }
+
+  .progressRow {
+    padding: 0.65rem 0.8rem;
+  }
+
+  .card {
+    padding: 1.2rem;
+  }
+
+  .verbName {
+    font-size: clamp(1.65rem, 7vw, 2.15rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .progressRow {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 0.35rem;
+  }
+
+  .progressLabel {
+    flex: 1 1 100%;
+  }
+
+  .inputRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pronounHint {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .screen {
+    padding-inline: 0.85rem;
+  }
+
+  .card {
+    padding: 1rem;
+    border-radius: var(--radius-xl);
+  }
+
+  .progressTrack {
+    margin-bottom: var(--space-md);
+  }
+
+  .verbName {
+    font-size: 1.55rem;
+  }
+
+  .directionTag {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .checkBtn,
+  .nextBtn {
+    padding: 0.9rem var(--space-md);
+  }
+}
+
 @media (max-width: 480px) {
   .inputRow {
     flex-direction: column;
@@ -329,5 +398,25 @@
     min-height: 3rem;
     padding: 0.72rem 0.9rem;
     font-size: 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .screen {
+    padding-inline: 0.7rem;
+  }
+
+  .progressRow {
+    padding-inline: 0.7rem;
+  }
+
+  .stats {
+    width: 100%;
+    justify-content: space-between;
+    font-size: 0.82rem;
+  }
+
+  .hint {
+    font-size: 0.72rem;
   }
 }

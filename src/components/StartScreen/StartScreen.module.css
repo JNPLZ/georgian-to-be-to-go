@@ -196,7 +196,63 @@
   box-shadow: none;
 }
 
-@media (max-height: 720px), (max-width: 400px) {
+@media (max-width: 760px) {
+  .screen {
+    max-width: 580px;
+    padding-top: var(--space-md);
+  }
+
+  .header {
+    padding: 1.4rem;
+  }
+
+  .title {
+    font-size: clamp(1.9rem, 8vw, 2.6rem);
+    max-width: 14ch;
+  }
+
+  .subtitle {
+    font-size: 0.96rem;
+  }
+
+  .checkboxList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .screen {
+    padding-inline: 0.9rem;
+  }
+
+  .header {
+    margin-bottom: var(--space-md);
+    padding: 1.2rem;
+  }
+
+  .section {
+    padding: 0.92rem;
+  }
+
+  .checkboxList {
+    grid-template-columns: 1fr;
+  }
+
+  .checkboxLabel {
+    min-height: 3.35rem;
+    padding: 0.84rem 0.92rem;
+  }
+
+  .countRow {
+    gap: 0.55rem;
+  }
+
+  .countBtn {
+    padding: 0.88rem var(--space-xs);
+  }
+}
+
+@media (max-height: 760px), (max-width: 480px) {
   .screen { padding: var(--space-sm) var(--space-md); }
   .header { margin-bottom: var(--space-md); }
   .title { font-size: 1.8rem; max-width: none; }
@@ -218,5 +274,19 @@
   .startBtn {
     margin-top: var(--space-sm);
     padding: 0.95rem var(--space-md);
+  }
+}
+
+@media (max-width: 380px) {
+  .screen {
+    padding-inline: 0.75rem;
+  }
+
+  .countRow {
+    gap: 0.45rem;
+  }
+
+  .countBtn {
+    font-size: 0.84rem;
   }
 }
