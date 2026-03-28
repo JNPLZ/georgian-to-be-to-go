@@ -4,7 +4,7 @@
   "description": "Practice Georgian verb conjugations",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#F5F7FA",
-  "theme_color": "#2E6FD8",
+  "background_color": "#E7EEEB",
+  "theme_color": "#DCE8E4",
   "icons": []
 }

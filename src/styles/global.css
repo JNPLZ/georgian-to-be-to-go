@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import './variables.css';
 
 *, *::before, *::after {
@@ -18,17 +18,25 @@ body {
   color: var(--color-text);
   line-height: 1.5;
   min-height: 100dvh;
+  background-attachment: fixed;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.82) 0, rgba(255, 255, 255, 0.18) 20%, transparent 42%),
+    radial-gradient(circle at 86% 10%, rgba(77, 188, 187, 0.2) 0, rgba(77, 188, 187, 0.06) 20%, transparent 42%),
+    radial-gradient(circle at 78% 78%, rgba(12, 123, 154, 0.14) 0, rgba(12, 123, 154, 0.03) 18%, transparent 42%),
+    linear-gradient(180deg, #eef5f2 0%, #e4ece8 100%);
 }
 
 #app {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
+  position: relative;
 }
 
 main {
   flex: 1;
-  padding-top: var(--nav-height);
+  padding-top: calc(var(--nav-height) + 0.75rem);
+  padding-bottom: var(--space-xl);
 }
 
 .georgian {
@@ -41,6 +49,12 @@ button {
   font-size: 1rem;
   border: none;
   border-radius: var(--radius-md);
+  transition:
+    transform var(--transition),
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition),
+    box-shadow var(--transition);
 }
 
 button:focus-visible {
@@ -54,6 +68,9 @@ input {
 }
 
 input:focus {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 1px;
+  outline: none;
+}
+
+select {
+  font-family: inherit;
 }

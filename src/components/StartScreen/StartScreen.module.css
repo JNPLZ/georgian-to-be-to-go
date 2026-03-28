@@ -1,59 +1,115 @@
 .screen {
-  max-width: 480px;
+  max-width: 620px;
   margin: 0 auto;
-  padding: var(--space-xl) var(--space-md);
+  padding: var(--space-lg) var(--space-md);
 }
 
 .header {
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-lg);
+  padding: clamp(1.3rem, 4vw, 2rem);
+  background:
+    radial-gradient(circle at top right, rgba(70, 199, 193, 0.2), transparent 42%),
+    var(--gradient-panel);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  position: relative;
+  overflow: hidden;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.26), transparent 45%);
+  pointer-events: none;
 }
 
 .title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: var(--space-xs);
+  font-size: clamp(2rem, 7vw, 3.15rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+  margin-bottom: 0.6rem;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  max-width: 12ch;
+  position: relative;
+  z-index: 1;
 }
 
 .subtitle {
   color: var(--color-text-muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
+  max-width: 44ch;
+  position: relative;
+  z-index: 1;
 }
 
 .section {
-  margin-bottom: var(--space-xl);
+  margin-bottom: 0.9rem;
+  padding: 1rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(245, 250, 249, 0.54));
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm), var(--glass-stroke);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
 }
 
 .sectionLabel {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.14em;
   color: var(--color-text-muted);
-  margin-bottom: var(--space-sm);
+  margin-bottom: 0.85rem;
+  padding-left: 4px;
 }
 
 .checkboxList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
 }
 
 .checkboxLabel {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-md);
+  min-height: 3.6rem;
+  padding: 0.95rem 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: calc(var(--radius-md) + 2px);
   cursor: pointer;
-  font-size: 1rem;
-  transition: border-color 0.15s;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+
+.checkboxLabel:has(input:checked) {
+  border-color: var(--color-accent);
+  background:
+    linear-gradient(180deg, rgba(244, 255, 253, 0.96), rgba(223, 246, 244, 0.8));
+  color: var(--color-accent-hover);
+  box-shadow:
+    0 0 0 3px rgba(15, 143, 132, 0.12),
+    0 14px 28px rgba(15, 143, 132, 0.12);
 }
 
 .checkboxLabel:hover {
-  border-color: var(--color-accent);
+  border-color: var(--color-accent-light);
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--color-text);
+  transform: translateY(-1px);
 }
 
 .checkboxLabel input[type='checkbox'] {
@@ -65,95 +121,102 @@
 }
 
 .countRow {
-  display: flex;
-  gap: var(--space-sm);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
 }
 
 .countBtn {
-  flex: 1;
-  padding: var(--space-sm) var(--space-xs);
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--color-text);
-  transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+  padding: 1rem var(--space-xs);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: calc(var(--radius-md) + 2px);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s, transform 0.15s, box-shadow 0.15s;
 }
 
 .countBtn:hover {
-  border-color: var(--color-accent);
+  border-color: var(--color-accent-light);
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-1px);
 }
 
 .countBtn.selected {
-  background: var(--color-accent);
+  background: linear-gradient(135deg, rgba(246, 255, 253, 0.96), rgba(223, 246, 243, 0.82));
   border-color: var(--color-accent);
-  color: #fff;
+  color: var(--color-accent-hover);
+  box-shadow:
+    0 0 0 3px rgba(15, 143, 132, 0.12),
+    0 18px 32px rgba(15, 143, 132, 0.12);
 }
 
 .error {
   color: var(--color-error);
-  font-size: 0.875rem;
-  margin-top: var(--space-xs);
-  min-height: 1.2em;
+  font-size: 0.88rem;
+  margin-top: 0.35rem;
+  min-height: 1.4em;
+  padding-left: 0.3rem;
 }
 
 .startBtn {
   display: block;
   width: 100%;
-  padding: 1.1rem var(--space-md);
-  background: var(--color-accent);
+  padding: 1.15rem var(--space-md);
+  background: var(--gradient-accent);
   color: #fff;
   font-size: 1rem;
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  margin-top: var(--space-xl);
-  transition: background-color 0.15s;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  border-radius: calc(var(--radius-lg) - 2px);
+  margin-top: var(--space-md);
+  box-shadow: var(--glow-accent), 0 18px 40px rgba(17, 88, 105, 0.26);
+  position: relative;
+  overflow: hidden;
 }
 
 .startBtn:hover {
-  background: var(--color-accent-hover);
+  filter: brightness(1.04);
+  transform: translateY(-2px);
+  box-shadow: 0 22px 44px rgba(17, 88, 105, 0.3);
+}
+
+.startBtn:active {
+  transform: translateY(0);
+  filter: brightness(0.98);
 }
 
 .startBtn:disabled {
-  opacity: 0.45;
+  opacity: 0.4;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-/* ── Compact layout for short / small screens (e.g. iPhone SE 375×667) ── */
 @media (max-height: 720px), (max-width: 400px) {
-  .screen {
-    padding: var(--space-md) var(--space-md);
-  }
-
-  .header {
-    margin-bottom: var(--space-md);
-  }
-
-  .title {
-    font-size: 1.35rem;
-  }
-
-  .subtitle {
-    font-size: 0.85rem;
-  }
-
-  .section {
-    margin-bottom: var(--space-md);
-  }
+  .screen { padding: var(--space-sm) var(--space-md); }
+  .header { margin-bottom: var(--space-md); }
+  .title { font-size: 1.8rem; max-width: none; }
+  .subtitle { font-size: 0.9rem; }
+  .section { margin-bottom: 0.75rem; padding: 0.9rem; }
+  .checkboxList { grid-template-columns: 1fr; }
 
   .checkboxLabel {
-    padding: 6px var(--space-sm);
-    font-size: 0.9rem;
+    min-height: 3.2rem;
+    padding: 0.82rem var(--space-sm);
+    font-size: 0.88rem;
   }
 
   .countBtn {
-    padding: 6px var(--space-xs);
-    font-size: 0.9rem;
+    padding: 0.85rem var(--space-xs);
+    font-size: 0.88rem;
   }
 
   .startBtn {
     margin-top: var(--space-sm);
-    padding: 0.75rem var(--space-md);
+    padding: 0.95rem var(--space-md);
   }
 }

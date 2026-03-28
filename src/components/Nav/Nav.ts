@@ -18,15 +18,11 @@ export function createNav(activeScreen: Screen, callbacks: NavCallbacks): HTMLEl
   nav.className = styles.nav;
   nav.setAttribute('aria-label', 'Main navigation');
 
-  // App title — always navigates to start (doubles as quit when in quiz)
-  const title = document.createElement('button');
-  title.className = styles.title;
-  title.textContent = t('appTitle');
-  title.setAttribute('aria-label', t('appTitle'));
-  title.addEventListener('click', () => callbacks.onNavigate('start'));
-
   const links = document.createElement('div');
   links.className = styles.links;
+
+  const actions = document.createElement('div');
+  actions.className = styles.actions;
 
   const homeBtn = document.createElement('button');
   homeBtn.className =
@@ -68,8 +64,9 @@ export function createNav(activeScreen: Screen, callbacks: NavCallbacks): HTMLEl
     callbacks.onLangChange();
   });
 
-  nav.append(title, links);
-  if (activeScreen === 'quiz') nav.appendChild(quitBtn);
-  nav.appendChild(langSelect);
+  nav.appendChild(links);
+  if (activeScreen === 'quiz') actions.appendChild(quitBtn);
+  actions.appendChild(langSelect);
+  nav.appendChild(actions);
   return nav;
 }

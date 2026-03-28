@@ -1,44 +1,55 @@
 .screen {
-  max-width: 720px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: var(--space-lg) var(--space-md);
+  padding: var(--space-md) var(--space-md);
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: clamp(1.9rem, 5vw, 2.7rem);
   font-weight: 800;
+  letter-spacing: -0.03em;
   margin-bottom: var(--space-lg);
-  letter-spacing: -0.01em;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Tabs */
 .tabBar {
   display: flex;
-  gap: 2px;
-  border-bottom: 2px solid var(--color-border);
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.54);
+  border-radius: calc(var(--radius-lg) + 4px);
+  padding: 4px;
   margin-bottom: var(--space-xl);
+  width: fit-content;
+  box-shadow: var(--shadow-sm), var(--glass-stroke);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .tabBtn {
   background: none;
   color: var(--color-text-muted);
-  padding: var(--space-sm) var(--space-lg);
-  border-radius: 0;
-  font-size: 0.95rem;
-  font-weight: 600;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-  transition: color var(--transition), border-color var(--transition);
+  padding: 0.75rem 1.3rem;
+  border-radius: calc(var(--radius-md) + 2px);
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: color var(--transition), background-color var(--transition);
 }
 
-.tabBtn:hover { color: var(--color-text); }
+.tabBtn:hover {
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.54);
+}
 
 .tabBtn.active {
-  color: var(--color-accent);
-  border-bottom-color: var(--color-accent);
+  background: var(--gradient-accent);
+  color: #fff;
+  box-shadow: var(--glow-accent);
 }
 
-/* Scroll-fade wrapper */
 .tableOuter {
   position: relative;
   margin-bottom: var(--space-xl);
@@ -47,18 +58,18 @@
 .tableWrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  border-radius: calc(var(--radius-lg) + 2px);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
-/* Gradient fade overlays */
 .tableFadeLeft,
 .tableFadeRight {
   position: absolute;
-  top: 1px;    /* inside the border */
-  bottom: 1px;
-  width: 48px;
+  top: 1px; bottom: 1px;
+  width: 72px;
   pointer-events: none;
   transition: opacity 0.2s;
   z-index: 1;
@@ -67,44 +78,46 @@
 .tableFadeLeft {
   left: 1px;
   border-radius: var(--radius-md) 0 0 var(--radius-md);
-  background: linear-gradient(to right, var(--color-surface), transparent);
+  background:
+    linear-gradient(to right, rgba(232, 241, 239, 0.98) 0%, rgba(232, 241, 239, 0.88) 28%, rgba(232, 241, 239, 0.42) 62%, transparent 100%);
 }
 
 .tableFadeRight {
   right: 1px;
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  background: linear-gradient(to left, var(--color-surface), transparent);
+  background:
+    linear-gradient(to left, rgba(232, 241, 239, 0.98) 0%, rgba(232, 241, 239, 0.88) 28%, rgba(232, 241, 239, 0.42) 62%, transparent 100%);
 }
 
-/* Conjugation table */
 .table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
   min-width: 320px;
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .table th {
   text-align: left;
-  padding: var(--space-sm) var(--space-md);
-  font-size: 0.72rem;
+  padding: 0.9rem 1rem;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--color-text-muted);
-  background: var(--color-bg);
-  border-bottom: 2px solid var(--color-border);
+  background: rgba(239, 246, 244, 0.9);
+  border-bottom: 1px solid rgba(123, 151, 147, 0.18);
   white-space: nowrap;
 }
 
 .table td {
-  padding: 10px var(--space-md);
+  padding: 0.9rem 1rem;
   border-bottom: 1px solid var(--color-border-light);
   vertical-align: middle;
 }
 
 .table tr:last-child td { border-bottom: none; }
-.table tr:hover td { background: var(--color-accent-subtle); }
+.table tr:hover td { background: rgba(239, 255, 252, 0.8); }
 
 .pronounCell {
   font-family: var(--font-georgian);
@@ -118,25 +131,25 @@
   font-family: var(--font-georgian);
   font-size: 1.05rem;
   font-weight: 600;
+  color: var(--color-text);
 }
 
-/* Prefix selector */
 .prefixSection { margin-bottom: var(--space-md); }
 
 .prefixLabel {
   display: block;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
   color: var(--color-text-muted);
   margin-bottom: var(--space-sm);
 }
 
 .prefixGrid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(94px, 1fr));
+  gap: 0.65rem;
 }
 
 .prefixBtn {
@@ -144,24 +157,28 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding: 8px 12px;
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-md);
-  color: var(--color-text-muted);
-  transition: border-color var(--transition), color var(--transition), background-color var(--transition);
+  min-height: 4.5rem;
+  padding: 0.8rem 0.9rem;
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: calc(var(--radius-md) + 2px);
+  color: var(--color-text);
+  box-shadow: var(--shadow-sm), var(--glass-stroke);
+  transition: border-color var(--transition), color var(--transition), background-color var(--transition), box-shadow var(--transition);
   cursor: pointer;
 }
 
 .prefixBtn:hover {
-  border-color: var(--color-accent);
-  color: var(--color-text);
+  border-color: var(--color-accent-light);
+  background: rgba(255, 255, 255, 0.88);
+  transform: translateY(-1px);
 }
 
 .prefixBtn.active {
-  border-color: var(--color-accent);
-  background: var(--color-accent-subtle);
-  color: var(--color-accent);
+  background: var(--gradient-accent);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: var(--glow-accent);
 }
 
 .prefixBtnScript {
@@ -173,7 +190,7 @@
 
 .prefixBtnIcon {
   color: inherit;
-  opacity: 0.8;
+  opacity: 0.85;
   display: flex;
   align-items: center;
 }
@@ -183,13 +200,14 @@
   align-items: center;
   gap: var(--space-sm);
   margin-bottom: var(--space-md);
-  padding: 6px var(--space-sm);
-  background: var(--color-accent-subtle);
-  border: 1px solid var(--color-accent-border);
-  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.9rem;
+  background: rgba(245, 255, 252, 0.88);
+  border: 1px solid rgba(15, 143, 132, 0.22);
+  border-radius: var(--radius-pill);
   font-size: 0.875rem;
-  color: var(--color-accent);
-  font-weight: 500;
+  color: var(--color-accent-hover);
+  font-weight: 700;
+  box-shadow: var(--glass-stroke);
 }
 
 .directionIcon {
@@ -197,49 +215,51 @@
   align-items: center;
 }
 
-/* წა- callout note */
 .tsaCallout {
   margin-bottom: var(--space-md);
-  padding: var(--space-sm) var(--space-md);
-  background: color-mix(in srgb, var(--color-text-muted) 7%, transparent);
-  border-left: 3px solid var(--color-accent-border);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 0.9rem 1rem;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  border-left: 4px solid rgba(15, 143, 132, 0.38);
+  border-radius: var(--radius-lg);
   font-size: 0.85rem;
   color: var(--color-text-muted);
   font-family: var(--font-georgian);
   line-height: 1.5;
+  box-shadow: var(--shadow-sm), var(--glass-stroke);
 }
 
-/* Prefix explanation grid */
 .prefixExplanation { margin-top: var(--space-2xl); }
 
 .prefixExplanationTitle {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
   margin-bottom: var(--space-md);
 }
 
 .prefixExplainGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: var(--space-sm);
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
 }
 
 .prefixCard {
   display: flex;
   align-items: center;
   gap: var(--space-md);
-  padding: var(--space-sm) var(--space-md);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  padding: 0.95rem 1rem;
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  border-radius: calc(var(--radius-md) + 2px);
   font-size: 0.875rem;
+  box-shadow: var(--shadow-sm), var(--glass-stroke);
   transition: border-color var(--transition), background-color var(--transition);
 }
 
 .prefixCard:hover {
   border-color: var(--color-accent-border);
-  background: var(--color-accent-subtle);
+  background: rgba(246, 255, 253, 0.92);
 }
 
 .prefixCardLeft {
@@ -268,6 +288,17 @@
 }
 
 .prefixCardMeaning {
-  color: var(--color-text);
+  color: var(--color-text-muted);
   line-height: 1.35;
+}
+
+@media (max-width: 560px) {
+  .tabBar {
+    width: 100%;
+  }
+
+  .tabBtn {
+    flex: 1;
+    padding-inline: 1rem;
+  }
 }
