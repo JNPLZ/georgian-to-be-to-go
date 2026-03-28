@@ -10,6 +10,7 @@ const translations: Record<Language, Record<string, string>> = { en, de, ru };
 let currentLang: Language = 'en';
 
 export function initLang(): void {
+  currentLang = 'en';
   const stored = localStorage.getItem(STORAGE_KEY) as Language | null;
   if (stored && stored in translations) {
     currentLang = stored;
