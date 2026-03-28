@@ -26,6 +26,7 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
   let state = initialState;
   let keyListener: ((e: KeyboardEvent) => void) | null = null;
   let draftAnswer = '';
+  const prefersMobileKeyboardFlow = window.matchMedia?.('(pointer: coarse)').matches ?? false;
   // Timer for auto-advancing after a correct answer
   let autoAdvanceTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -84,6 +85,16 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
     progressFill.className = styles.progressFill;
     progressFill.style.width = `${(answered / total) * 100}%`;
     progressTrack.appendChild(progressFill);
+
+    const keyboardAnchor = document.createElement('input');
+    keyboardAnchor.type = 'text';
+    keyboardAnchor.className = styles.keyboardAnchor;
+    keyboardAnchor.setAttribute('aria-hidden', 'true');
+    keyboardAnchor.setAttribute('tabindex', '-1');
+    keyboardAnchor.setAttribute('autocomplete', 'off');
+    keyboardAnchor.setAttribute('autocorrect', 'off');
+    keyboardAnchor.setAttribute('autocapitalize', 'off');
+    keyboardAnchor.setAttribute('spellcheck', 'false');
 
     // Card
     const card = document.createElement('div');
@@ -175,7 +186,9 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
       });
 
       card.appendChild(checkBtn);
-      setTimeout(() => input.focus(), 40);
+      screen.append(progressRow, progressTrack, card, keyboardAnchor);
+      input.focus({ preventScroll: true });
+      return;
 
     } else {
       // ── Feedback phase ──────────────────────────────────────────────
@@ -230,7 +243,11 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
       }
     }
 
-    screen.append(progressRow, progressTrack, card);
+    screen.append(progressRow, progressTrack, card, keyboardAnchor);
+
+    if (prefersMobileKeyboardFlow) {
+      keyboardAnchor.focus({ preventScroll: true });
+    }
   }
 
   render();
