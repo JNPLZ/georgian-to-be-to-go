@@ -36,6 +36,47 @@ function generateGoQuestion(prefix: GoPrefix, tenses: Tense[]): Question {
   };
 }
 
+function questionKey(question: Question): string {
+  return [
+    question.verb,
+    question.tense,
+    question.person,
+    question.prefix ?? '-',
+  ].join('|');
+}
+
+function generateQuestionForSlot(
+  verb: Verb,
+  tenses: Tense[],
+  prefix?: GoPrefix,
+): Question {
+  if (verb === 'be') return generateBeQuestion(tenses);
+  return generateGoQuestion(prefix as GoPrefix, tenses);
+}
+
+function generateQuestionAvoidingRepeat(
+  verb: Verb,
+  tenses: Tense[],
+  previousQuestion: Question | undefined,
+  prefix?: GoPrefix,
+): Question {
+  const previousKey = previousQuestion ? questionKey(previousQuestion) : null;
+  let fallback = generateQuestionForSlot(verb, tenses, prefix);
+
+  if (!previousKey || questionKey(fallback) !== previousKey) {
+    return fallback;
+  }
+
+  for (let attempt = 0; attempt < 24; attempt++) {
+    const candidate = generateQuestionForSlot(verb, tenses, prefix);
+    if (questionKey(candidate) !== previousKey) {
+      return candidate;
+    }
+  }
+
+  return fallback;
+}
+
 export function generateQuestions(settings: QuizSettings): Question[] {
   const { questionCount, verbs, tenses } = settings;
 
@@ -60,8 +101,18 @@ export function generateQuestions(settings: QuizSettings): Question[] {
   shuffle(prefixPool);
 
   let prefixIdx = 0;
-  return verbPool.map(verb => {
-    if (verb === 'be') return generateBeQuestion(tenses);
-    return generateGoQuestion(prefixPool[prefixIdx++], tenses);
-  });
+  const questions: Question[] = [];
+
+  for (const verb of verbPool) {
+    const prefix = verb === 'go' ? prefixPool[prefixIdx++] : undefined;
+    const question = generateQuestionAvoidingRepeat(
+      verb,
+      tenses,
+      questions[questions.length - 1],
+      prefix,
+    );
+    questions.push(question);
+  }
+
+  return questions;
 }
