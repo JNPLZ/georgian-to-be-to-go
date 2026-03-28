@@ -7,7 +7,11 @@ interface NavCallbacks {
   onLangChange: () => void;
 }
 
-const LANGS: Language[] = ['en', 'de', 'ru'];
+const LANGS: { value: Language; label: string }[] = [
+  { value: 'en', label: 'EN' },
+  { value: 'de', label: 'DE' },
+  { value: 'ru', label: 'RU' },
+];
 
 export function createNav(activeScreen: Screen, callbacks: NavCallbacks): HTMLElement {
   const nav = document.createElement('nav');
@@ -35,24 +39,25 @@ export function createNav(activeScreen: Screen, callbacks: NavCallbacks): HTMLEl
 
   links.append(homeBtn, cheatBtn);
 
-  const langGroup = document.createElement('div');
-  langGroup.className = styles.langGroup;
-  langGroup.setAttribute('role', 'group');
-  langGroup.setAttribute('aria-label', 'Language');
+  // Language dropdown
+  const langSelect = document.createElement('select');
+  langSelect.className = styles.langSelect;
+  langSelect.setAttribute('aria-label', 'Language');
 
   const currentLang = getLang();
-  for (const lang of LANGS) {
-    const btn = document.createElement('button');
-    btn.className = styles.langBtn + (lang === currentLang ? ' ' + styles.active : '');
-    btn.textContent = lang.toUpperCase();
-    btn.setAttribute('aria-pressed', String(lang === currentLang));
-    btn.addEventListener('click', () => {
-      setLang(lang);
-      callbacks.onLangChange();
-    });
-    langGroup.appendChild(btn);
+  for (const { value, label } of LANGS) {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = label;
+    option.selected = value === currentLang;
+    langSelect.appendChild(option);
   }
 
-  nav.append(title, links, langGroup);
+  langSelect.addEventListener('change', () => {
+    setLang(langSelect.value as Language);
+    callbacks.onLangChange();
+  });
+
+  nav.append(title, links, langSelect);
   return nav;
 }

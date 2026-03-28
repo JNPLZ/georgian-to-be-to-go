@@ -1,22 +1,37 @@
-import type { GoPrefix, Person, Tense } from '../../types/index';
+import type { GoPrefix, Person } from '../../types/index';
 import { t } from '../../features/i18n/i18n';
 import { verbBe } from '../../data/verbBe';
 import { verbGoConjugations, goPrefixInfo, GO_PREFIXES } from '../../data/verbGo';
+import { prefixIcons } from '../../utils/prefixIcons';
 import styles from './CheatSheet.module.css';
 
 type Tab = 'be' | 'go';
 
+// In the cheatsheet, მი- and წა- share a combined entry because they use the same
+// conjugation pattern — but წა- has no present-tense forms.
+type CheatPrefix = 'mi_tsa' | Exclude<GoPrefix, 'mi' | 'tsa'>;
+const CHEAT_PREFIXES: CheatPrefix[] = ['mi_tsa', 'mo', 'a', 'cha', 'she', 'ga', 'gada', 'da'];
+
 const PERSONS: Person[] = ['1s', '2s', '3s', '1p', '2p', '3p'];
-const TENSES: Tense[] = ['present', 'past', 'future'];
 
 const PRONOUNS: Record<Person, string> = {
   '1s': 'მე', '2s': 'შენ', '3s': 'ის',
   '1p': 'ჩვენ', '2p': 'თქვენ', '3p': 'ისინი',
 };
 
+function getPrefixLabel(cp: CheatPrefix): string {
+  if (cp === 'mi_tsa') return 'მი- / წა-';
+  return goPrefixInfo[cp].script;
+}
+
+function getPrefixIcon(cp: CheatPrefix): string {
+  if (cp === 'mi_tsa') return prefixIcons.mi;
+  return prefixIcons[cp];
+}
+
 export function createCheatSheet(): HTMLElement {
   let activeTab: Tab = 'be';
-  let activePrefix: GoPrefix = 'mi';
+  let activeCheatPrefix: CheatPrefix = 'mi_tsa';
 
   const screen = document.createElement('div');
   screen.className = styles.screen;
@@ -28,7 +43,6 @@ export function createCheatSheet(): HTMLElement {
     title.className = styles.title;
     title.textContent = t('cheatsheetTitle');
 
-    // Tab bar
     const tabBar = document.createElement('div');
     tabBar.className = styles.tabBar;
     tabBar.setAttribute('role', 'tablist');
@@ -39,45 +53,45 @@ export function createCheatSheet(): HTMLElement {
       btn.textContent = t(tab === 'be' ? 'verbBeTab' : 'verbGoTab');
       btn.setAttribute('role', 'tab');
       btn.setAttribute('aria-selected', String(tab === activeTab));
-      btn.addEventListener('click', () => {
-        activeTab = tab;
-        render();
-      });
+      btn.addEventListener('click', () => { activeTab = tab; render(); });
       tabBar.appendChild(btn);
     }
 
     screen.append(title, tabBar);
-
-    if (activeTab === 'be') {
-      screen.appendChild(buildBeTable());
-    } else {
-      screen.appendChild(buildGoSection());
-    }
+    screen.appendChild(activeTab === 'be' ? buildBeTable() : buildGoSection());
   }
 
-  function buildBeTable(): HTMLElement {
-    const wrap = document.createElement('div');
+  type Tense = 'present' | 'past' | 'future';
+
+  /** Returns a table wrapped in a scroll-fade container. */
+  function buildConjugationTable(
+    getForm: (person: Person, tense: Tense) => string,
+    tenses: Tense[] = ['present', 'past', 'future'],
+  ): HTMLElement {
+    const outer = document.createElement('div');
+    outer.className = styles.tableOuter;
 
     const tableWrap = document.createElement('div');
     tableWrap.className = styles.tableWrap;
 
+    const fadeLeft = document.createElement('div');
+    fadeLeft.className = styles.tableFadeLeft;
+    fadeLeft.setAttribute('aria-hidden', 'true');
+
+    const fadeRight = document.createElement('div');
+    fadeRight.className = styles.tableFadeRight;
+    fadeRight.setAttribute('aria-hidden', 'true');
+
     const table = document.createElement('table');
     table.className = styles.table;
 
-    // Header
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
-    const th0 = document.createElement('th');
-    th0.textContent = t('pronoun');
-    const th1 = document.createElement('th');
-    th1.textContent = t('person');
-    const thPresent = document.createElement('th');
-    thPresent.textContent = t('present');
-    const thPast = document.createElement('th');
-    thPast.textContent = t('past');
-    const thFuture = document.createElement('th');
-    thFuture.textContent = t('future');
-    headerRow.append(th0, th1, thPresent, thPast, thFuture);
+    for (const key of ['pronoun', ...tenses]) {
+      const th = document.createElement('th');
+      th.textContent = t(key);
+      headerRow.appendChild(th);
+    }
     thead.appendChild(headerRow);
     table.appendChild(thead);
 
@@ -88,30 +102,40 @@ export function createCheatSheet(): HTMLElement {
       const tdPronoun = document.createElement('td');
       tdPronoun.className = styles.pronounCell;
       tdPronoun.textContent = PRONOUNS[person];
+      row.appendChild(tdPronoun);
 
-      const tdPerson = document.createElement('td');
-      tdPerson.className = styles.personCell;
-      tdPerson.textContent = t('p' + person);
+      for (const tense of tenses) {
+        const td = document.createElement('td');
+        td.className = styles.georgianForm;
+        td.textContent = getForm(person, tense);
+        row.appendChild(td);
+      }
 
-      const tdPresent = document.createElement('td');
-      tdPresent.className = styles.georgianForm;
-      tdPresent.textContent = verbBe.present[person];
-
-      const tdPast = document.createElement('td');
-      tdPast.className = styles.georgianForm;
-      tdPast.textContent = verbBe.past[person];
-
-      const tdFuture = document.createElement('td');
-      tdFuture.className = styles.georgianForm;
-      tdFuture.textContent = verbBe.future[person];
-
-      row.append(tdPronoun, tdPerson, tdPresent, tdPast, tdFuture);
       tbody.appendChild(row);
     }
     table.appendChild(tbody);
     tableWrap.appendChild(table);
-    wrap.appendChild(tableWrap);
-    return wrap;
+
+    outer.append(tableWrap, fadeLeft, fadeRight);
+
+    // Scroll fade logic
+    requestAnimationFrame(() => {
+      const hasOverflow = tableWrap.scrollWidth > tableWrap.clientWidth + 2;
+      fadeRight.style.opacity = hasOverflow ? '1' : '0';
+      fadeLeft.style.opacity = '0';
+    });
+
+    tableWrap.addEventListener('scroll', () => {
+      const { scrollLeft, scrollWidth, clientWidth } = tableWrap;
+      fadeLeft.style.opacity = scrollLeft > 2 ? '1' : '0';
+      fadeRight.style.opacity = scrollLeft + clientWidth < scrollWidth - 2 ? '1' : '0';
+    }, { passive: true });
+
+    return outer;
+  }
+
+  function buildBeTable(): HTMLElement {
+    return buildConjugationTable((person, tense) => verbBe[tense][person]);
   }
 
   function buildGoSection(): HTMLElement {
@@ -130,23 +154,19 @@ export function createCheatSheet(): HTMLElement {
     prefixGrid.className = styles.prefixGrid;
 
     const prefixBtns: HTMLButtonElement[] = [];
-    for (const prefix of GO_PREFIXES) {
-      const info = goPrefixInfo[prefix];
+    for (const cp of CHEAT_PREFIXES) {
       const btn = document.createElement('button');
-      btn.className = styles.prefixBtn + (prefix === activePrefix ? ' ' + styles.active : '');
+      btn.className = styles.prefixBtn + (cp === activeCheatPrefix ? ' ' + styles.active : '');
+      btn.setAttribute('aria-label', getPrefixLabel(cp));
       btn.innerHTML =
-        `<span class="${styles.prefixBtnScript}">${info.script}</span>` +
-        `<span class="${styles.prefixBtnLatin}">${info.transliteration}</span>`;
-      btn.setAttribute('aria-label', `${info.script} — ${t(info.meaningKey)}`);
+        `<span class="${styles.prefixBtnScript}">${getPrefixLabel(cp)}</span>` +
+        `<span class="${styles.prefixBtnIcon}">${getPrefixIcon(cp)}</span>`;
       btn.addEventListener('click', () => {
-        activePrefix = prefix;
+        activeCheatPrefix = cp;
         prefixBtns.forEach((b, i) => {
-          const active = GO_PREFIXES[i] === activePrefix;
-          b.className = styles.prefixBtn + (active ? ' ' + styles.active : '');
+          b.className = styles.prefixBtn + (CHEAT_PREFIXES[i] === activeCheatPrefix ? ' ' + styles.active : '');
         });
-        // Re-render direction note and table only
-        directionNote.textContent = t(goPrefixInfo[activePrefix].meaningKey);
-        updateGoTable();
+        updateContent();
       });
       prefixBtns.push(btn);
       prefixGrid.appendChild(btn);
@@ -154,74 +174,66 @@ export function createCheatSheet(): HTMLElement {
     prefixSection.appendChild(prefixGrid);
     wrap.appendChild(prefixSection);
 
-    // Direction note
+    // Direction note + table container (swapped on prefix change)
     const directionNote = document.createElement('div');
     directionNote.className = styles.directionNote;
-    directionNote.textContent = t(goPrefixInfo[activePrefix].meaningKey);
-    wrap.appendChild(directionNote);
+    const tableContainer = document.createElement('div');
+    const tsaCallout = document.createElement('div');
+    tsaCallout.className = styles.tsaCallout;
+    const daCallout = document.createElement('div');
+    daCallout.className = styles.tsaCallout;
 
-    // Conjugation table
-    const tableWrap = document.createElement('div');
-    tableWrap.className = styles.tableWrap;
+    wrap.append(directionNote, tableContainer, tsaCallout, daCallout);
 
-    const table = document.createElement('table');
-    table.className = styles.table;
+    function updateContent(): void {
+      tsaCallout.style.display = 'none';
+      daCallout.style.display = 'none';
 
-    const thead = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    const th0 = document.createElement('th');
-    th0.textContent = t('pronoun');
-    const th1 = document.createElement('th');
-    th1.textContent = t('person');
-    const thPresent = document.createElement('th');
-    thPresent.textContent = t('present');
-    const thPast = document.createElement('th');
-    thPast.textContent = t('past');
-    const thFuture = document.createElement('th');
-    thFuture.textContent = t('future');
-    headerRow.append(th0, th1, thPresent, thPast, thFuture);
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
+      if (activeCheatPrefix === 'mi_tsa') {
+        directionNote.innerHTML =
+          `<span class="${styles.directionIcon}">${prefixIcons.mi}</span>` +
+          `<span>${t(goPrefixInfo.mi.meaningKey)}</span>`;
 
-    const tbody = document.createElement('tbody');
-    table.appendChild(tbody);
-    tableWrap.appendChild(table);
-    wrap.appendChild(tableWrap);
+        tableContainer.innerHTML = '';
+        tableContainer.appendChild(
+          buildConjugationTable((person, tense) => verbGoConjugations.mi[tense][person]),
+        );
 
-    function updateGoTable(): void {
-      tbody.innerHTML = '';
-      const conj = verbGoConjugations[activePrefix];
-      for (const person of PERSONS) {
-        const row = document.createElement('tr');
+        tsaCallout.textContent = t('tsaNote');
+        tsaCallout.style.display = '';
+      } else if (activeCheatPrefix === 'da') {
+        directionNote.innerHTML =
+          `<span class="${styles.directionIcon}">${prefixIcons.da}</span>` +
+          `<span>${t(goPrefixInfo.da.meaningKey)}</span>`;
 
-        const tdPronoun = document.createElement('td');
-        tdPronoun.className = styles.pronounCell;
-        tdPronoun.textContent = PRONOUNS[person];
+        tableContainer.innerHTML = '';
+        tableContainer.appendChild(
+          buildConjugationTable(
+            (person, tense) => verbGoConjugations.da[tense][person],
+            ['present'],
+          ),
+        );
 
-        const tdPerson = document.createElement('td');
-        tdPerson.className = styles.personCell;
-        tdPerson.textContent = t('p' + person);
+        daCallout.textContent = t('daNote');
+        daCallout.style.display = '';
+      } else {
+        const info = goPrefixInfo[activeCheatPrefix as GoPrefix];
+        directionNote.innerHTML =
+          `<span class="${styles.directionIcon}">${prefixIcons[activeCheatPrefix as GoPrefix]}</span>` +
+          `<span>${t(info.meaningKey)}</span>`;
 
-        const tdPresent = document.createElement('td');
-        tdPresent.className = styles.georgianForm;
-        tdPresent.textContent = conj.present[person];
-
-        const tdPast = document.createElement('td');
-        tdPast.className = styles.georgianForm;
-        tdPast.textContent = conj.past[person];
-
-        const tdFuture = document.createElement('td');
-        tdFuture.className = styles.georgianForm;
-        tdFuture.textContent = conj.future[person];
-
-        row.append(tdPronoun, tdPerson, tdPresent, tdPast, tdFuture);
-        tbody.appendChild(row);
+        tableContainer.innerHTML = '';
+        tableContainer.appendChild(
+          buildConjugationTable(
+            (person, tense) => verbGoConjugations[activeCheatPrefix as GoPrefix][tense][person],
+          ),
+        );
       }
     }
 
-    updateGoTable();
+    updateContent();
 
-    // Prefix explanation cards at bottom
+    // Prefix explanation cards
     const explainSection = document.createElement('div');
     explainSection.className = styles.prefixExplanation;
 
@@ -233,22 +245,33 @@ export function createCheatSheet(): HTMLElement {
     const grid = document.createElement('div');
     grid.className = styles.prefixExplainGrid;
 
-    for (const prefix of GO_PREFIXES) {
-      const info = goPrefixInfo[prefix];
+    for (const cp of CHEAT_PREFIXES) {
       const card = document.createElement('div');
       card.className = styles.prefixCard;
-      card.innerHTML =
-        `<div>` +
-        `  <div class="${styles.prefixCardScript}">${info.script}</div>` +
-        `  <div class="${styles.prefixCardLatin}">${info.transliteration}</div>` +
-        `</div>` +
-        `<div>${t(info.meaningKey)}</div>`;
+
+      const left = document.createElement('div');
+      left.className = styles.prefixCardLeft;
+      left.innerHTML =
+        `<span class="${styles.prefixCardScript}">${getPrefixLabel(cp)}</span>` +
+        `<span class="${styles.prefixCardIcon}">${getPrefixIcon(cp)}</span>`;
+
+      const meaning = document.createElement('span');
+      meaning.className = styles.prefixCardMeaning;
+
+      if (cp === 'mi_tsa') {
+        meaning.innerHTML =
+          `${t(goPrefixInfo.mi.meaningKey)}<br>` +
+          `<small style="opacity:.7">${t(goPrefixInfo.tsa.meaningKey)}</small>`;
+      } else {
+        meaning.textContent = t(goPrefixInfo[cp as GoPrefix].meaningKey);
+      }
+
+      card.append(left, meaning);
       grid.appendChild(card);
     }
 
     explainSection.appendChild(grid);
     wrap.appendChild(explainSection);
-
     return wrap;
   }
 

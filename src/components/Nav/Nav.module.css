@@ -15,12 +15,22 @@
 }
 
 .title {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--color-accent);
   white-space: nowrap;
   flex-shrink: 0;
-  margin-right: var(--space-xs);
+  /* Truncate on very small screens */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+@media (max-width: 400px) {
+  .title {
+    max-width: 72px;
+    font-size: 0.8rem;
+  }
 }
 
 .links {
@@ -36,7 +46,7 @@
   border-radius: var(--radius-sm);
   font-size: 0.875rem;
   font-weight: 500;
-  transition: color 0.15s, background-color 0.15s;
+  transition: color var(--transition), background-color var(--transition);
   white-space: nowrap;
 }
 
@@ -47,33 +57,32 @@
 
 .navBtn.active {
   color: var(--color-accent);
-  background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  background-color: var(--color-accent-subtle);
 }
 
-.langGroup {
-  display: flex;
-  gap: 2px;
+/* Language <select> */
+.langSelect {
   flex-shrink: 0;
-}
-
-.langBtn {
-  background: none;
-  color: var(--color-text-muted);
-  padding: 2px 6px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--color-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236B7A99'/%3E%3C/svg%3E") no-repeat right 6px center;
+  background-size: 8px 5px;
+  border: 1.5px solid var(--color-border);
   border-radius: var(--radius-sm);
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  transition: color 0.15s, background-color 0.15s;
+  padding: 4px 24px 4px 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
 }
 
-.langBtn:hover {
-  color: var(--color-text);
-  background-color: var(--color-bg);
-}
-
-.langBtn.active {
+.langSelect:hover {
+  border-color: var(--color-accent);
   color: var(--color-accent);
-  background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+}
+
+.langSelect:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
 }

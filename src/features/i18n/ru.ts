@@ -17,7 +17,7 @@ export const ru: Record<string, string> = {
   correct: 'Правильно!',
   incorrect: 'Неверно.',
   correctAnswer: 'Правильный ответ:',
-  typeAnswer: 'Введите грузинскую форму…',
+  typeAnswer: 'форму глагола',
   checkAnswer: 'Проверить',
   next: 'Далее →',
   typeHint: 'Вводите только форму глагола — без местоимения',
@@ -41,7 +41,7 @@ export const ru: Record<string, string> = {
   prefix_cha:  'спуститься',
   prefix_gada: 'перейти / пересечь',
   prefix_tsa:  'уйти / уехать',
-  prefix_da:   'идти вдоль / прийти',
+  prefix_da:   'привычное / регулярное движение',
 
   direction: 'Направление',
 
@@ -57,4 +57,10 @@ export const ru: Record<string, string> = {
   pronoun: 'Местоимение',
 
   georgian_keyboard_hint: 'Для ввода ответов нужна грузинская (мхедрули) раскладка клавиатуры.',
+  oneCorrectAnswer: 'Один верный вариант:',
+  tsaNote: 'წა- (уходить) использует те же формы для прошедшего и будущего — в настоящем не употребляется.',
+  daNote: 'და- (привычное движение) существует только в настоящем времени.',
+  footerPrefix: 'Сделано с 💙 ',
+  footerSuffix: ', ученицей языковой школы AnidaBani',
+  footerPrivacy: '✖ Без трекинга · ✖ Без cookies',
 };

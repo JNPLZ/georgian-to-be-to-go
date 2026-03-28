@@ -1,93 +1,88 @@
 .screen {
-  max-width: 560px;
+  max-width: 520px;
   margin: 0 auto;
   padding: var(--space-lg) var(--space-md);
 }
 
-/* Progress bar */
+/* Progress */
 .progressRow {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
   margin-bottom: var(--space-sm);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: var(--color-text-muted);
 }
 
-.progressLabel {
-  flex: 1;
-}
+.progressLabel { flex: 1; font-weight: 500; }
 
 .stats {
   display: flex;
   gap: var(--space-sm);
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 0.9rem;
 }
 
-.statCorrect {
-  color: var(--color-success);
-}
-
-.statIncorrect {
-  color: var(--color-error);
-}
+.statCorrect   { color: var(--color-success); }
+.statIncorrect { color: var(--color-error); }
 
 .progressTrack {
-  height: 4px;
+  height: 5px;
   background: var(--color-border);
-  border-radius: 2px;
+  border-radius: var(--radius-pill);
   overflow: hidden;
   margin-bottom: var(--space-lg);
 }
 
 .progressFill {
   height: 100%;
-  background: var(--color-accent);
-  border-radius: 2px;
-  transition: width 0.3s ease;
+  background: linear-gradient(90deg, var(--color-accent), color-mix(in srgb, var(--color-accent) 65%, #90BFFF));
+  border-radius: var(--radius-pill);
+  transition: width 0.35s ease;
 }
 
-/* Question card */
+/* Card */
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: var(--space-lg);
-  box-shadow: var(--shadow-md);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-card);
 }
 
-.questionMeta {
-  margin-bottom: var(--space-md);
-}
+.questionMeta { margin-bottom: var(--space-lg); }
 
 .verbName {
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-size: 1.4rem;
+  font-weight: 800;
   color: var(--color-text);
+  letter-spacing: -0.01em;
 }
 
 .tensePersonRow {
   font-size: 0.9rem;
   color: var(--color-text-muted);
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
+/* Direction tag */
 .directionTag {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-xs);
+  gap: 6px;
   margin-top: var(--space-sm);
-  padding: var(--space-xs) var(--space-sm);
-  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-accent) 20%, transparent);
+  padding: 6px 10px;
+  background: var(--color-accent-subtle);
+  border: 1px solid var(--color-accent-border);
   border-radius: var(--radius-sm);
-  font-size: 0.85rem;
   color: var(--color-accent);
+  font-size: 0.85rem;
 }
 
-.prefixScript {
-  font-weight: 700;
-  font-size: 1rem;
+.directionIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 /* Input row */
@@ -100,7 +95,7 @@
 
 .pronounHint {
   font-family: var(--font-georgian);
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--color-text-muted);
   flex-shrink: 0;
   user-select: none;
@@ -108,38 +103,56 @@
 
 .input {
   flex: 1;
-  padding: var(--space-sm) var(--space-md);
+  padding: 8px var(--space-md);
   border: 1.5px solid var(--color-border);
   border-radius: var(--radius-md);
   font-family: var(--font-georgian);
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   color: var(--color-text);
   background: var(--color-surface);
-  transition: border-color 0.15s;
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 .input:focus {
   border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-subtle);
+  outline: none;
 }
 
-.input:disabled {
-  opacity: 0.9;
-}
+.input:disabled { opacity: 0.9; }
 
 .inputCorrect {
   border-color: var(--color-success) !important;
   background: var(--color-success-bg);
+  animation: successPop 0.35s ease-out;
+}
+
+@keyframes successPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.04); }
+  75%  { transform: scale(0.98); }
+  100% { transform: scale(1); }
 }
 
 .inputIncorrect {
   border-color: var(--color-error) !important;
   background: var(--color-error-bg);
+  animation: shake 0.38s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  18%       { transform: translateX(-5px); }
+  36%       { transform: translateX(5px); }
+  54%       { transform: translateX(-5px); }
+  72%       { transform: translateX(4px); }
 }
 
 .hint {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--color-text-muted);
   margin-top: var(--space-sm);
+  opacity: 0.8;
 }
 
 /* Feedback */
@@ -148,6 +161,13 @@
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
   font-size: 0.95rem;
+  font-weight: 600;
+  animation: slideUp 0.22s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(7px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .feedbackCorrect {
@@ -163,9 +183,10 @@
 }
 
 .correctAnswerLine {
-  margin-top: var(--space-xs);
-  font-size: 0.9rem;
+  margin-top: 5px;
+  font-size: 0.875rem;
   color: var(--color-text);
+  font-weight: 400;
 }
 
 .correctForm {
@@ -174,37 +195,36 @@
   font-size: 1.05rem;
 }
 
-/* Action buttons */
+/* Buttons */
 .checkBtn {
   display: block;
   width: 100%;
   margin-top: var(--space-md);
-  padding: var(--space-sm) var(--space-md);
+  padding: 11px var(--space-md);
   background: var(--color-accent);
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 0.95rem;
   border-radius: var(--radius-md);
-  transition: background-color 0.15s;
+  transition: background-color var(--transition), transform 0.1s;
 }
 
-.checkBtn:hover {
-  background: var(--color-accent-hover);
-}
+.checkBtn:hover  { background: var(--color-accent-hover); }
+.checkBtn:active { transform: scale(0.98); }
 
 .nextBtn {
   display: block;
   width: 100%;
   margin-top: var(--space-md);
-  padding: var(--space-sm) var(--space-md);
+  padding: 11px var(--space-md);
   background: var(--color-surface);
-  color: var(--color-text);
-  font-weight: 600;
-  border: 1.5px solid var(--color-border);
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1.5px solid var(--color-accent-border);
   border-radius: var(--radius-md);
-  transition: border-color 0.15s, background-color 0.15s;
+  transition: border-color var(--transition), background-color var(--transition), transform 0.1s;
 }
 
-.nextBtn:hover {
-  border-color: var(--color-accent);
-  background: var(--color-bg);
-}
+.nextBtn:hover  { background: var(--color-accent-subtle); border-color: var(--color-accent); }
+.nextBtn:active { transform: scale(0.98); }

@@ -4,34 +4,42 @@ import { loadSettings, saveSettings, createQuizState } from '../features/quiz/qu
 import { createNav } from '../components/Nav/Nav';
 import { createStartScreen } from '../components/StartScreen/StartScreen';
 import { createQuizScreen } from '../components/QuizScreen/QuizScreen';
+import type { QuizScreenInstance } from '../components/QuizScreen/QuizScreen';
 import { createResultScreen } from '../components/ResultScreen/ResultScreen';
 import { createCheatSheet } from '../components/CheatSheet/CheatSheet';
+import { createFooter } from '../components/Footer/Footer';
 
 export function initApp(root: HTMLElement): void {
   initLang();
 
   let currentScreen: Screen = 'start';
   let quizState: QuizState | null = null;
+  let currentQuiz: QuizScreenInstance | null = null;
   let settings = loadSettings();
 
   const navContainer = document.createElement('div');
   const main = document.createElement('main');
-  root.append(navContainer, main);
+  const footerContainer = document.createElement('div');
+  root.append(navContainer, main, footerContainer);
 
   function renderNav(): void {
     navContainer.innerHTML = '';
     navContainer.appendChild(
       createNav(currentScreen, {
-        onNavigate(screen) {
-          navigateTo(screen);
-        },
+        onNavigate(screen) { navigateTo(screen); },
         onLangChange() {
-          // Re-render everything in the new language
+          if (currentQuiz) { currentQuiz.destroy(); currentQuiz = null; }
           renderNav();
           renderScreen();
+          renderFooter();
         },
       }),
     );
+  }
+
+  function renderFooter(): void {
+    footerContainer.innerHTML = '';
+    footerContainer.appendChild(createFooter());
   }
 
   function renderScreen(): void {
@@ -49,20 +57,21 @@ export function initApp(root: HTMLElement): void {
         }),
       );
     } else if (currentScreen === 'quiz' && quizState) {
-      main.appendChild(
-        createQuizScreen(quizState, {
-          onComplete(finalState) {
-            quizState = finalState;
-            navigateTo('result');
-          },
-        }),
-      );
+      currentQuiz = createQuizScreen(quizState, {
+        onComplete(finalState) {
+          quizState = finalState;
+          currentQuiz = null;
+          navigateTo('result');
+        },
+        onStateChange(currentState) {
+          quizState = currentState;
+        },
+      });
+      main.appendChild(currentQuiz.element);
     } else if (currentScreen === 'result' && quizState) {
       main.appendChild(
         createResultScreen(quizState, {
-          onNewRound() {
-            navigateTo('start');
-          },
+          onNewRound() { navigateTo('start'); },
         }),
       );
     } else if (currentScreen === 'cheatsheet') {
@@ -78,4 +87,5 @@ export function initApp(root: HTMLElement): void {
 
   renderNav();
   renderScreen();
+  renderFooter();
 }

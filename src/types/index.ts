@@ -23,6 +23,8 @@ export interface Question {
   person: Person;
   prefix?: GoPrefix;
   answer: string;
+  /** All accepted answers — used for "go" questions where any prefix form is valid. */
+  validAnswers?: string[];
 }
 
 export interface QuizSettings {

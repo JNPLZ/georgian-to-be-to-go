@@ -17,7 +17,7 @@ export const de: Record<string, string> = {
   correct: 'Richtig!',
   incorrect: 'Falsch.',
   correctAnswer: 'Richtige Antwort:',
-  typeAnswer: 'Georgische Form eingeben…',
+  typeAnswer: 'Verbform',
   checkAnswer: 'Prüfen',
   next: 'Weiter →',
   typeHint: 'Nur die Verbform eingeben – ohne Pronomen',
@@ -33,15 +33,15 @@ export const de: Record<string, string> = {
   past: 'Vergangenheit',
   future: 'Zukunft',
 
-  prefix_mi:   'weg vom Sprecher',
-  prefix_mo:   'zum Sprecher hin',
+  prefix_mi:   'von der Sprecher:in weg',
+  prefix_mo:   'zur Sprecher:in hin',
   prefix_she:  'hinein / eintreten',
   prefix_ga:   'heraus / austreten',
   prefix_a:    'hinauf',
   prefix_cha:  'hinunter',
   prefix_gada: 'hinüber / überqueren',
   prefix_tsa:  'weggehen / abreisen',
-  prefix_da:   'entlanggehen / ankommen',
+  prefix_da:   'gewohnheitsmäßiges Gehen',
 
   direction: 'Richtung',
 
@@ -57,4 +57,10 @@ export const de: Record<string, string> = {
   pronoun: 'Pronomen',
 
   georgian_keyboard_hint: 'Zum Eingeben der Antworten wird ein georgisches (Mxedruli) Tastaturlayout benötigt.',
+  oneCorrectAnswer: 'Ein gültiges Beispiel:',
+  tsaNote: 'წა- (abreisen) verwendet in Vergangenheit und Zukunft dieselben Formen — im Präsens wird es nicht genutzt.',
+  daNote: 'და- (gewohnheitsmäßiges Gehen) gibt es nur im Präsens.',
+  footerPrefix: 'Gemacht mit 💙 von ',
+  footerSuffix: ', Schülerin der AnidaBani Language School',
+  footerPrivacy: '✖ Kein Tracking · ✖ Keine Cookies',
 };

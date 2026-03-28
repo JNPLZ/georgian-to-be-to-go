@@ -35,7 +35,10 @@ export function createQuizState(settings: QuizSettings): QuizState {
 
 export function submitAnswer(state: QuizState, answer: string): QuizState {
   const trimmed = answer.trim();
-  const correct = trimmed === state.questions[state.currentIndex].answer;
+  const question = state.questions[state.currentIndex];
+  const correct = question.validAnswers
+    ? question.validAnswers.includes(trimmed)
+    : trimmed === question.answer;
   return {
     ...state,
     userAnswers: [...state.userAnswers, trimmed],

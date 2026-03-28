@@ -2,6 +2,7 @@ import type { QuizState } from '../../types/index';
 import { t } from '../../features/i18n/i18n';
 import { submitAnswer, advanceQuestion, isComplete, getScore } from '../../features/quiz/quiz';
 import { goPrefixInfo } from '../../data/verbGo';
+import { prefixIcons } from '../../utils/prefixIcons';
 import styles from './QuizScreen.module.css';
 
 const PRONOUNS: Record<string, string> = {
@@ -11,38 +12,56 @@ const PRONOUNS: Record<string, string> = {
 
 interface QuizCallbacks {
   onComplete: (state: QuizState) => void;
+  onStateChange?: (state: QuizState) => void;
 }
 
-export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbacks): HTMLElement {
-  let state = initialState;
+export interface QuizScreenInstance {
+  element: HTMLElement;
+  destroy: () => void;
+}
 
-  // Key listener for "Next" phase — stored so we can remove it when done
+export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbacks): QuizScreenInstance {
+  let state = initialState;
   let keyListener: ((e: KeyboardEvent) => void) | null = null;
+  // Timer for auto-advancing after a correct answer
+  let autoAdvanceTimer: ReturnType<typeof setTimeout> | null = null;
 
   const screen = document.createElement('div');
   screen.className = styles.screen;
 
-  function render(): void {
-    // Remove previous key listener if any
-    if (keyListener) {
-      document.removeEventListener('keydown', keyListener);
-      keyListener = null;
+  function cleanup(): void {
+    if (keyListener) { document.removeEventListener('keydown', keyListener); keyListener = null; }
+    if (autoAdvanceTimer !== null) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
+  }
+
+  function doNext(): void {
+    cleanup();
+    const nextState = advanceQuestion(state);
+    if (isComplete(nextState)) {
+      callbacks.onComplete(nextState);
+    } else {
+      state = nextState;
+      callbacks.onStateChange?.(state);
+      render();
     }
+  }
+
+  function render(): void {
+    cleanup();
     screen.innerHTML = '';
 
     const question = state.questions[state.currentIndex];
     const score = getScore(state);
-    const displayNum = state.currentIndex + 1;
     const total = state.questions.length;
     const answered = state.results.length;
 
-    // Progress row
+    // Progress
     const progressRow = document.createElement('div');
     progressRow.className = styles.progressRow;
 
     const progressLabel = document.createElement('span');
     progressLabel.className = styles.progressLabel;
-    progressLabel.textContent = `${t('question')} ${displayNum} ${t('of')} ${total}`;
+    progressLabel.textContent = `${t('question')} ${state.currentIndex + 1} ${t('of')} ${total}`;
 
     const statsDiv = document.createElement('div');
     statsDiv.className = styles.stats;
@@ -66,7 +85,7 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
     const card = document.createElement('div');
     card.className = styles.card;
 
-    // Question meta
+    // Question meta — show verb + tense only (person is visible via pronoun)
     const meta = document.createElement('div');
     meta.className = styles.questionMeta;
 
@@ -74,19 +93,26 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
     verbName.className = styles.verbName;
     verbName.textContent = t(question.verb === 'be' ? 'verbBe' : 'verbGo');
 
-    const tensePersonRow = document.createElement('div');
-    tensePersonRow.className = styles.tensePersonRow;
-    tensePersonRow.textContent = `${t(question.tense)} · ${t('p' + question.person)}`;
+    const tenseRow = document.createElement('div');
+    tenseRow.className = styles.tensePersonRow;
+    tenseRow.textContent = t(question.tense);
 
-    meta.append(verbName, tensePersonRow);
+    meta.append(verbName, tenseRow);
 
+    // For "go" questions: icon + direction meaning (no Georgian script — accept any form)
     if (question.verb === 'go' && question.prefix) {
       const info = goPrefixInfo[question.prefix];
       const tag = document.createElement('div');
       tag.className = styles.directionTag;
-      tag.innerHTML =
-        `<span class="${styles.prefixScript} georgian">${info.script}</span>` +
-        `<span>${t(info.meaningKey)}</span>`;
+
+      const iconSpan = document.createElement('span');
+      iconSpan.className = styles.directionIcon;
+      iconSpan.innerHTML = prefixIcons[question.prefix];
+
+      const textSpan = document.createElement('span');
+      textSpan.textContent = t(info.meaningKey);
+
+      tag.append(iconSpan, textSpan);
       meta.appendChild(tag);
     }
 
@@ -121,7 +147,6 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
     card.appendChild(hint);
 
     if (state.phase === 'answering') {
-      // Check button
       const checkBtn = document.createElement('button');
       checkBtn.className = styles.checkBtn;
       checkBtn.textContent = t('checkAnswer');
@@ -129,19 +154,21 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
       const doCheck = () => {
         if (!input.value.trim()) return;
         state = submitAnswer(state, input.value);
+        callbacks.onStateChange?.(state);
         render();
       };
 
       checkBtn.addEventListener('click', doCheck);
+      // stopPropagation prevents the Enter event from bubbling to any document listener
       input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') doCheck();
+        if (e.key === 'Enter') { e.stopPropagation(); doCheck(); }
       });
 
       card.appendChild(checkBtn);
       setTimeout(() => input.focus(), 40);
 
     } else {
-      // Feedback phase
+      // ── Feedback phase ──────────────────────────────────────────────
       const lastAnswer = state.userAnswers[state.userAnswers.length - 1];
       const wasCorrect = state.results[state.results.length - 1];
 
@@ -153,12 +180,14 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
       const feedback = document.createElement('div');
       feedback.className =
         styles.feedback + ' ' + (wasCorrect ? styles.feedbackCorrect : styles.feedbackIncorrect);
+      feedback.setAttribute('role', 'status');
       feedback.textContent = wasCorrect ? t('correct') : t('incorrect');
 
       if (!wasCorrect) {
         const line = document.createElement('div');
         line.className = styles.correctAnswerLine;
-        line.textContent = t('correctAnswer') + ' ';
+        const label = question.validAnswers ? t('oneCorrectAnswer') : t('correctAnswer');
+        line.textContent = label + ' ';
         const form = document.createElement('span');
         form.className = styles.correctForm;
         form.textContent = question.answer;
@@ -168,36 +197,32 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
 
       card.appendChild(feedback);
 
-      const nextBtn = document.createElement('button');
-      nextBtn.className = styles.nextBtn;
-      nextBtn.textContent = t('next');
+      if (wasCorrect) {
+        // Auto-advance after 1.2 s — no button, no key listener needed
+        autoAdvanceTimer = setTimeout(doNext, 1200);
+      } else {
+        // Incorrect: require explicit confirmation so the user can read the answer
+        const nextBtn = document.createElement('button');
+        nextBtn.className = styles.nextBtn;
+        nextBtn.textContent = t('next');
+        nextBtn.addEventListener('click', doNext);
 
-      const doNext = () => {
-        if (keyListener) {
-          document.removeEventListener('keydown', keyListener);
-          keyListener = null;
-        }
-        const nextState = advanceQuestion(state);
-        if (isComplete(nextState)) {
-          callbacks.onComplete(nextState);
-        } else {
-          state = nextState;
-          render();
-        }
-      };
+        // Add key listener with a small delay so the current Enter keydown
+        // (if that's how the answer was submitted) doesn't immediately fire it
+        setTimeout(() => {
+          keyListener = (e: KeyboardEvent) => {
+            if (e.key === 'Enter' || e.key === 'ArrowRight') doNext();
+          };
+          document.addEventListener('keydown', keyListener);
+        }, 80);
 
-      nextBtn.addEventListener('click', doNext);
-      keyListener = (e: KeyboardEvent) => {
-        if (e.key === 'Enter' || e.key === 'ArrowRight') doNext();
-      };
-      document.addEventListener('keydown', keyListener);
-
-      card.appendChild(nextBtn);
+        card.appendChild(nextBtn);
+      }
     }
 
     screen.append(progressRow, progressTrack, card);
   }
 
   render();
-  return screen;
+  return { element: screen, destroy: cleanup };
 }

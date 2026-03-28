@@ -17,7 +17,7 @@ export const en: Record<string, string> = {
   correct: 'Correct!',
   incorrect: 'Incorrect.',
   correctAnswer: 'Correct answer:',
-  typeAnswer: 'Type the Georgian form…',
+  typeAnswer: 'verb form',
   checkAnswer: 'Check',
   next: 'Next →',
   typeHint: 'Type only the verb form — without pronoun',
@@ -33,15 +33,15 @@ export const en: Record<string, string> = {
   past: 'Past',
   future: 'Future',
 
-  prefix_mi:   'going away (from speaker)',
-  prefix_mo:   'coming towards (speaker)',
+  prefix_mi:   'going away from speaker',
+  prefix_mo:   'coming towards speaker',
   prefix_she:  'going in / entering',
   prefix_ga:   'going out / exiting',
   prefix_a:    'going up',
   prefix_cha:  'going down',
   prefix_gada: 'going over / crossing',
   prefix_tsa:  'going away / departing',
-  prefix_da:   'going along / arriving',
+  prefix_da:   'habitual / regular movement',
 
   direction: 'Direction',
 
@@ -57,4 +57,10 @@ export const en: Record<string, string> = {
   pronoun: 'Pronoun',
 
   georgian_keyboard_hint: 'You need a Georgian (Mkhedruli) keyboard layout to type answers.',
+  oneCorrectAnswer: 'One valid answer:',
+  tsaNote: 'წა- (departing) shares these forms for past and future — it has no present-tense forms.',
+  daNote: 'და- (habitual movement) only exists in the present tense.',
+  footerPrefix: 'Made with 💙 by ',
+  footerSuffix: ', student of AnidaBani Language School',
+  footerPrivacy: '✖ No Tracking · ✖ No Cookies',
 };
