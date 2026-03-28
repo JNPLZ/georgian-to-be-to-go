@@ -183,7 +183,7 @@ export function createCheatSheet(): HTMLElement {
     const daCallout = document.createElement('div');
     daCallout.className = styles.tsaCallout;
 
-    wrap.append(directionNote, tableContainer, tsaCallout, daCallout);
+    wrap.append(directionNote, tsaCallout, daCallout, tableContainer);
 
     function updateContent(): void {
       tsaCallout.style.display = 'none';
@@ -192,11 +192,15 @@ export function createCheatSheet(): HTMLElement {
       if (activeCheatPrefix === 'mi_tsa') {
         directionNote.innerHTML =
           `<span class="${styles.directionIcon}">${prefixIcons.mi}</span>` +
-          `<span>${t(goPrefixInfo.mi.meaningKey)}</span>`;
+          `<span>${t('miTsaMeaning')}</span>`;
 
         tableContainer.innerHTML = '';
         tableContainer.appendChild(
-          buildConjugationTable((person, tense) => verbGoConjugations.mi[tense][person]),
+          buildConjugationTable((person, tense) =>
+            tense === 'present'
+              ? verbGoConjugations.mi.present[person]
+              : verbGoConjugations.tsa[tense][person],
+          ),
         );
 
         tsaCallout.textContent = t('tsaNote');
@@ -259,9 +263,7 @@ export function createCheatSheet(): HTMLElement {
       meaning.className = styles.prefixCardMeaning;
 
       if (cp === 'mi_tsa') {
-        meaning.innerHTML =
-          `${t(goPrefixInfo.mi.meaningKey)}<br>` +
-          `<small style="opacity:.7">${t(goPrefixInfo.tsa.meaningKey)}</small>`;
+        meaning.textContent = t('miTsaMeaning');
       } else {
         meaning.textContent = t(goPrefixInfo[cp as GoPrefix].meaningKey);
       }
