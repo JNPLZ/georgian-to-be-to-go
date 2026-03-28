@@ -43,6 +43,36 @@ describe('quiz prefix display', () => {
     expect(tsaScreen.element.textContent).not.toContain('alternate basic go-prefix');
   });
 
+  it('shows the canonical წა- correction for general-going future feedback', () => {
+    const screen = createQuizScreen(
+      {
+        settings: {
+          questionCount: 10,
+          verbs: ['go'],
+          tenses: ['future'],
+        },
+        questions: [
+          {
+            verb: 'go',
+            tense: 'future',
+            person: '3s',
+            prefix: 'tsa',
+            answer: 'წავა',
+            validAnswers: ['წავა'],
+          },
+        ],
+        currentIndex: 0,
+        userAnswers: ['wrong'],
+        results: [false],
+        phase: 'feedback',
+      },
+      { onComplete() {} },
+    );
+
+    expect(screen.element.textContent).toContain('წავა');
+    expect(screen.element.textContent).not.toContain('მივა');
+  });
+
   it('keeps the feedback screen after a correct answer on coarse-pointer devices', () => {
     const originalMatchMedia = window.matchMedia;
     window.matchMedia = vi.fn().mockReturnValue({ matches: true }) as typeof window.matchMedia;

@@ -8,6 +8,13 @@ const PERSONS: Person[] = ['1s', '2s', '3s', '1p', '2p', '3p'];
 // და- (habitual movement) only exists in the present tense
 const DA: GoPrefix = 'da';
 
+export function canonicalGoPrefixForTense(prefix: GoPrefix, tense: Tense): GoPrefix {
+  if (prefix === 'mi' || prefix === 'tsa') {
+    return tense === 'present' ? 'mi' : 'tsa';
+  }
+  return prefix;
+}
+
 function generateBeQuestion(tenses: Tense[]): Question {
   const tense = randomItem(tenses);
   const person = randomItem(PERSONS);
@@ -17,6 +24,7 @@ function generateBeQuestion(tenses: Tense[]): Question {
 function generateGoQuestion(prefix: GoPrefix, tenses: Tense[]): Question {
   // da- only exists in present — caller must ensure 'present' is available when passing DA
   const tense: Tense = prefix === DA ? 'present' : randomItem(tenses);
+  const canonicalPrefix = canonicalGoPrefixForTense(prefix, tense);
   const person = randomItem(PERSONS);
 
   // Accepted answers: all prefixes that have forms for this tense
@@ -30,8 +38,8 @@ function generateGoQuestion(prefix: GoPrefix, tenses: Tense[]): Question {
     verb: 'go',
     tense,
     person,
-    prefix,
-    answer: verbGoConjugations[prefix][tense][person],
+    prefix: canonicalPrefix,
+    answer: verbGoConjugations[canonicalPrefix][tense][person],
     validAnswers,
   };
 }

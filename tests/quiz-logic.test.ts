@@ -8,7 +8,8 @@ import {
   saveSettings,
   submitAnswer,
 } from '../src/features/quiz/quiz';
-import { generateQuestions } from '../src/features/quiz/questionGen';
+import { canonicalGoPrefixForTense, generateQuestions } from '../src/features/quiz/questionGen';
+import { verbGoConjugations } from '../src/data/verbGo';
 import type { Question } from '../src/types/index';
 
 function questionKey(question: Question): string {
@@ -64,6 +65,13 @@ describe('quiz settings persistence', () => {
 });
 
 describe('question generation', () => {
+  it('canonicalizes general-going prefixes by tense', () => {
+    expect(canonicalGoPrefixForTense('mi', 'present')).toBe('mi');
+    expect(canonicalGoPrefixForTense('mi', 'future')).toBe('tsa');
+    expect(canonicalGoPrefixForTense('tsa', 'past')).toBe('tsa');
+    expect(canonicalGoPrefixForTense('tsa', 'present')).toBe('mi');
+  });
+
   it('never generates the same question twice in a row', () => {
     for (let run = 0; run < 40; run++) {
       const questions = generateQuestions({
@@ -74,6 +82,30 @@ describe('question generation', () => {
 
       for (let i = 1; i < questions.length; i++) {
         expect(questionKey(questions[i])).not.toBe(questionKey(questions[i - 1]));
+      }
+    }
+  });
+
+  it('never keeps მი- as the canonical answer prefix in past or future questions', () => {
+    for (let run = 0; run < 40; run++) {
+      const questions = generateQuestions({
+        questionCount: 30,
+        verbs: ['go'],
+        tenses: ['present', 'past', 'future'],
+      });
+
+      for (const question of questions) {
+        if (question.verb !== 'go' || !question.prefix) continue;
+
+        if (question.prefix === 'mi') {
+          expect(question.tense).toBe('present');
+          expect(question.answer).toBe(verbGoConjugations.mi.present[question.person]);
+        }
+
+        if (question.prefix === 'tsa') {
+          expect(question.tense).not.toBe('present');
+          expect(question.answer).toBe(verbGoConjugations.tsa[question.tense][question.person]);
+        }
       }
     }
   });
