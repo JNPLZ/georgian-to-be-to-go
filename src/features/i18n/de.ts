@@ -19,7 +19,7 @@ export const de: Record<string, string> = {
   of: 'von',
   correct: 'Richtig!',
   incorrect: 'Falsch.',
-  correctAnswer: 'Richtige Antwort:',
+  correctAnswer: 'Korrekt:',
   typeAnswer: 'Verbform',
   checkAnswer: 'Prüfen',
   next: 'Weiter →',
@@ -60,7 +60,7 @@ export const de: Record<string, string> = {
   pronoun: 'Pronomen',
 
   georgian_keyboard_hint: 'Zum Eingeben der Antworten wird ein georgisches (Mxedruli) Tastaturlayout benötigt.',
-  oneCorrectAnswer: 'Ein gültiges Beispiel:',
+  oneCorrectAnswer: 'Korrekt:',
   tsaNote: 'წა- (abreisen) verwendet in Vergangenheit und Zukunft dieselben Formen — im Präsens wird es nicht genutzt.',
   daNote: 'და- (gewohnheitsmäßiges Gehen) gibt es nur im Präsens.',
   footerPrefix: 'Gemacht mit 💙 von ',

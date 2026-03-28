@@ -19,7 +19,7 @@ export const en: Record<string, string> = {
   of: 'of',
   correct: 'Correct!',
   incorrect: 'Incorrect.',
-  correctAnswer: 'Correct answer:',
+  correctAnswer: 'Correct:',
   typeAnswer: 'verb form',
   checkAnswer: 'Check',
   next: 'Next →',
@@ -60,7 +60,7 @@ export const en: Record<string, string> = {
   pronoun: 'Pronoun',
 
   georgian_keyboard_hint: 'You need a Georgian (Mkhedruli) keyboard layout to type answers.',
-  oneCorrectAnswer: 'One valid answer:',
+  oneCorrectAnswer: 'Correct:',
   tsaNote: 'წა- (departing) shares these forms for past and future — it has no present-tense forms.',
   daNote: 'და- (habitual movement) only exists in the present tense.',
   footerPrefix: 'Made with 💙 by ',

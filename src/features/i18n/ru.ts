@@ -19,7 +19,7 @@ export const ru: Record<string, string> = {
   of: 'из',
   correct: 'Правильно!',
   incorrect: 'Неверно.',
-  correctAnswer: 'Правильный ответ:',
+  correctAnswer: 'Верно:',
   typeAnswer: 'форму глагола',
   checkAnswer: 'Проверить',
   next: 'Далее →',
@@ -60,7 +60,7 @@ export const ru: Record<string, string> = {
   pronoun: 'Местоимение',
 
   georgian_keyboard_hint: 'Для ввода ответов нужна грузинская (мхедрули) раскладка клавиатуры.',
-  oneCorrectAnswer: 'Один верный вариант:',
+  oneCorrectAnswer: 'Верно:',
   tsaNote: 'წა- (уходить) использует те же формы для прошедшего и будущего — в настоящем не употребляется.',
   daNote: 'და- (привычное движение) существует только в настоящем времени.',
   footerPrefix: 'Сделано с 💙 ',
