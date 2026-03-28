@@ -1,0 +1,60 @@
+export const en: Record<string, string> = {
+  appTitle: 'Georgian Verbs',
+  home: 'Home',
+  cheatsheet: 'Cheatsheet',
+
+  startTitle: 'Practice Quiz',
+  startSubtitle: 'Test your Georgian verb conjugations',
+  selectVerbs: 'Verbs to practise',
+  verbBe: 'to be',
+  verbGo: 'to go',
+  questionCount: 'Questions per round',
+  startQuiz: 'Start Quiz',
+  selectAtLeastOne: 'Please select at least one verb.',
+
+  question: 'Question',
+  of: 'of',
+  correct: 'Correct!',
+  incorrect: 'Incorrect.',
+  correctAnswer: 'Correct answer:',
+  typeAnswer: 'Type the Georgian form…',
+  checkAnswer: 'Check',
+  next: 'Next →',
+  typeHint: 'Type only the verb form — without pronoun',
+
+  p1s: '1st singular (I)',
+  p2s: '2nd singular (you)',
+  p3s: '3rd singular (he / she / it)',
+  p1p: '1st plural (we)',
+  p2p: '2nd plural (you pl.)',
+  p3p: '3rd plural (they)',
+
+  present: 'Present',
+  past: 'Past',
+  future: 'Future',
+
+  prefix_mi:   'going away (from speaker)',
+  prefix_mo:   'coming towards (speaker)',
+  prefix_she:  'going in / entering',
+  prefix_ga:   'going out / exiting',
+  prefix_a:    'going up',
+  prefix_cha:  'going down',
+  prefix_gada: 'going over / crossing',
+  prefix_tsa:  'going away / departing',
+  prefix_da:   'going along / arriving',
+
+  direction: 'Direction',
+
+  roundComplete: 'Round complete!',
+  newRound: 'Start new round',
+
+  cheatsheetTitle: 'Cheatsheet',
+  verbBeTab: 'to be',
+  verbGoTab: 'to go',
+  selectPrefix: 'Select direction',
+  prefixNote: 'Directional prefixes change the meaning of "to go".',
+  person: 'Person',
+  pronoun: 'Pronoun',
+
+  georgian_keyboard_hint: 'You need a Georgian (Mkhedruli) keyboard layout to type answers.',
+};

@@ -1,0 +1,60 @@
+export const de: Record<string, string> = {
+  appTitle: 'Georgische Verben',
+  home: 'Start',
+  cheatsheet: 'Spickzettel',
+
+  startTitle: 'Quiz',
+  startSubtitle: 'Georgische Verbformen üben',
+  selectVerbs: 'Zu übende Verben',
+  verbBe: 'sein',
+  verbGo: 'gehen',
+  questionCount: 'Fragen pro Runde',
+  startQuiz: 'Quiz starten',
+  selectAtLeastOne: 'Bitte mindestens ein Verb auswählen.',
+
+  question: 'Frage',
+  of: 'von',
+  correct: 'Richtig!',
+  incorrect: 'Falsch.',
+  correctAnswer: 'Richtige Antwort:',
+  typeAnswer: 'Georgische Form eingeben…',
+  checkAnswer: 'Prüfen',
+  next: 'Weiter →',
+  typeHint: 'Nur die Verbform eingeben – ohne Pronomen',
+
+  p1s: '1. Person Singular (ich)',
+  p2s: '2. Person Singular (du)',
+  p3s: '3. Person Singular (er / sie / es)',
+  p1p: '1. Person Plural (wir)',
+  p2p: '2. Person Plural (ihr)',
+  p3p: '3. Person Plural (sie)',
+
+  present: 'Präsens',
+  past: 'Vergangenheit',
+  future: 'Zukunft',
+
+  prefix_mi:   'weg vom Sprecher',
+  prefix_mo:   'zum Sprecher hin',
+  prefix_she:  'hinein / eintreten',
+  prefix_ga:   'heraus / austreten',
+  prefix_a:    'hinauf',
+  prefix_cha:  'hinunter',
+  prefix_gada: 'hinüber / überqueren',
+  prefix_tsa:  'weggehen / abreisen',
+  prefix_da:   'entlanggehen / ankommen',
+
+  direction: 'Richtung',
+
+  roundComplete: 'Runde abgeschlossen!',
+  newRound: 'Neue Runde starten',
+
+  cheatsheetTitle: 'Spickzettel',
+  verbBeTab: 'sein',
+  verbGoTab: 'gehen',
+  selectPrefix: 'Richtung wählen',
+  prefixNote: 'Richtungspräfixe verändern die Bedeutung von „gehen".',
+  person: 'Person',
+  pronoun: 'Pronomen',
+
+  georgian_keyboard_hint: 'Zum Eingeben der Antworten wird ein georgisches (Mxedruli) Tastaturlayout benötigt.',
+};

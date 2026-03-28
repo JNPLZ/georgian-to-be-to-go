@@ -1,0 +1,58 @@
+import type { QuizSettings, QuizState } from '../../types/index';
+import { generateQuestions } from './questionGen';
+
+const SETTINGS_KEY = 'georgian_quiz_settings';
+
+const DEFAULT_SETTINGS: QuizSettings = {
+  questionCount: 10,
+  verbs: ['be', 'go'],
+};
+
+export function loadSettings(): QuizSettings {
+  try {
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    if (raw) return JSON.parse(raw) as QuizSettings;
+  } catch {
+    // ignore
+  }
+  return { ...DEFAULT_SETTINGS };
+}
+
+export function saveSettings(settings: QuizSettings): void {
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+}
+
+export function createQuizState(settings: QuizSettings): QuizState {
+  return {
+    settings,
+    questions: generateQuestions(settings),
+    currentIndex: 0,
+    userAnswers: [],
+    results: [],
+    phase: 'answering',
+  };
+}
+
+export function submitAnswer(state: QuizState, answer: string): QuizState {
+  const trimmed = answer.trim();
+  const correct = trimmed === state.questions[state.currentIndex].answer;
+  return {
+    ...state,
+    userAnswers: [...state.userAnswers, trimmed],
+    results: [...state.results, correct],
+    phase: 'feedback',
+  };
+}
+
+export function advanceQuestion(state: QuizState): QuizState {
+  return { ...state, currentIndex: state.currentIndex + 1, phase: 'answering' };
+}
+
+export function isComplete(state: QuizState): boolean {
+  return state.currentIndex >= state.questions.length;
+}
+
+export function getScore(state: QuizState) {
+  const correct = state.results.filter(Boolean).length;
+  return { correct, incorrect: state.results.length - correct, total: state.questions.length };
+}

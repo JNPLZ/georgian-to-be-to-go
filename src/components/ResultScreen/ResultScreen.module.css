@@ -1,0 +1,108 @@
+.screen {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md);
+  text-align: center;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+}
+
+.scoreDisplay {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  line-height: 1;
+  margin: var(--space-lg) 0 var(--space-sm);
+}
+
+.scoreSub {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-lg);
+}
+
+.statsRow {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+
+.statBlock {
+  text-align: center;
+}
+
+.statNum {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+.statNumCorrect {
+  color: var(--color-success);
+}
+
+.statNumIncorrect {
+  color: var(--color-error);
+}
+
+/* Result dots */
+.dotsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: var(--space-xl);
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+}
+
+.dotCorrect {
+  background: var(--color-success);
+}
+
+.dotIncorrect {
+  background: var(--color-error);
+}
+
+.newRoundBtn {
+  display: block;
+  width: 100%;
+  padding: var(--space-md);
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: background-color 0.15s;
+}
+
+.newRoundBtn:hover {
+  background: var(--color-accent-hover);
+}
