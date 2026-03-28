@@ -18,11 +18,14 @@ interface QuizCallbacks {
 export interface QuizScreenInstance {
   element: HTMLElement;
   destroy: () => void;
+  pause: () => void;
+  resume: () => void;
 }
 
 export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbacks): QuizScreenInstance {
   let state = initialState;
   let keyListener: ((e: KeyboardEvent) => void) | null = null;
+  let draftAnswer = '';
   // Timer for auto-advancing after a correct answer
   let autoAdvanceTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -41,6 +44,7 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
       callbacks.onComplete(nextState);
     } else {
       state = nextState;
+      draftAnswer = '';
       callbacks.onStateChange?.(state);
       render();
     }
@@ -147,17 +151,22 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
     card.appendChild(hint);
 
     if (state.phase === 'answering') {
+      input.value = draftAnswer;
       const checkBtn = document.createElement('button');
       checkBtn.className = styles.checkBtn;
       checkBtn.textContent = t('checkAnswer');
 
       const doCheck = () => {
         if (!input.value.trim()) return;
+        draftAnswer = input.value;
         state = submitAnswer(state, input.value);
         callbacks.onStateChange?.(state);
         render();
       };
 
+      input.addEventListener('input', () => {
+        draftAnswer = input.value;
+      });
       checkBtn.addEventListener('click', doCheck);
       // stopPropagation prevents the Enter event from bubbling to any document listener
       input.addEventListener('keydown', (e) => {
@@ -224,5 +233,10 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
   }
 
   render();
-  return { element: screen, destroy: cleanup };
+  return {
+    element: screen,
+    destroy: cleanup,
+    pause: cleanup,
+    resume: render,
+  };
 }

@@ -13,7 +13,11 @@ const LANGS: { value: Language; label: string }[] = [
   { value: 'ru', label: 'RU' },
 ];
 
-export function createNav(activeScreen: Screen, callbacks: NavCallbacks): HTMLElement {
+export function createNav(
+  activeScreen: Screen,
+  callbacks: NavCallbacks,
+  hasResumableQuiz = false,
+): HTMLElement {
   const nav = document.createElement('nav');
   nav.className = styles.nav;
   nav.setAttribute('aria-label', 'Main navigation');
@@ -28,7 +32,7 @@ export function createNav(activeScreen: Screen, callbacks: NavCallbacks): HTMLEl
   homeBtn.className =
     styles.navBtn + (activeScreen !== 'cheatsheet' ? ' ' + styles.active : '');
   homeBtn.textContent = t('home');
-  homeBtn.addEventListener('click', () => callbacks.onNavigate('start'));
+  homeBtn.addEventListener('click', () => callbacks.onNavigate(hasResumableQuiz ? 'quiz' : 'start'));
 
   const cheatBtn = document.createElement('button');
   cheatBtn.className =
