@@ -103,10 +103,8 @@
   letter-spacing: -0.03em;
   line-height: 1.16;
   padding-bottom: 0.14em;
-  background: var(--gradient-accent);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-accent-hover);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
 .tenseRow {
