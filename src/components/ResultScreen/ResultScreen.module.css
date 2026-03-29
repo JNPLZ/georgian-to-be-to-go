@@ -34,6 +34,10 @@
 }
 
 .scoreDisplay {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.16em;
   font-size: clamp(4.5rem, 15vw, 6.8rem);
   font-weight: 800;
   letter-spacing: -0.05em;
@@ -43,6 +47,15 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.scoreValue {
+  display: inline-block;
+}
+
+.scoreSlash {
+  display: inline-block;
+  padding-inline: 0.08em;
 }
 
 .scoreSub {

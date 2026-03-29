@@ -18,7 +18,10 @@ export function createResultScreen(state: QuizState, callbacks: ResultCallbacks)
 
   const scoreDisplay = document.createElement('div');
   scoreDisplay.className = styles.scoreDisplay;
-  scoreDisplay.textContent = `${score.correct}/${score.total}`;
+  scoreDisplay.innerHTML =
+    `<span class="${styles.scoreValue}">${score.correct}</span>` +
+    `<span class="${styles.scoreSlash}" aria-hidden="true">/</span>` +
+    `<span class="${styles.scoreValue}">${score.total}</span>`;
 
   const scoreSub = document.createElement('p');
   scoreSub.className = styles.scoreSub;

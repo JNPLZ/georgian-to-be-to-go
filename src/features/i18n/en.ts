@@ -23,7 +23,6 @@ export const en: Record<string, string> = {
   typeAnswer: 'verb form',
   checkAnswer: 'Check',
   next: 'Next →',
-  typeHint: 'Type only the verb form — without pronoun',
 
   p1s: '1st singular (I)',
   p2s: '2nd singular (you)',

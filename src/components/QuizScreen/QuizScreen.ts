@@ -166,11 +166,6 @@ export function createQuizScreen(initialState: QuizState, callbacks: QuizCallbac
     inputRow.append(pronounHint, input);
     card.appendChild(inputRow);
 
-    const hint = document.createElement('p');
-    hint.className = styles.hint;
-    hint.textContent = t('typeHint');
-    card.appendChild(hint);
-
     if (state.phase === 'answering') {
       input.value = draftAnswer;
       const checkBtn = document.createElement('button');

@@ -23,7 +23,6 @@ export const de: Record<string, string> = {
   typeAnswer: 'Verbform',
   checkAnswer: 'Prüfen',
   next: 'Weiter →',
-  typeHint: 'Nur die Verbform eingeben – ohne Pronomen',
 
   p1s: '1. Person Singular (ich)',
   p2s: '2. Person Singular (du)',
@@ -65,6 +64,6 @@ export const de: Record<string, string> = {
   tsaNote: 'In Vergangenheit und Zukunft wird hier წა- verwendet, wo im Präsens die Formen mit მი- stehen.',
   daNote: 'და- (gewohnheitsmäßiges Gehen) gibt es nur im Präsens.',
   footerPrefix: 'Gemacht mit 💙 von ',
-  footerSuffix: ', Schülerin der AnidaBani Language School',
+  footerSuffix: ', Schülerin der AnidaBani Sprachschule',
   footerPrivacy: '✖ Kein Tracking · ✖ Keine Cookies',
 };
