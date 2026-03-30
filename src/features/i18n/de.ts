@@ -63,7 +63,7 @@ export const de: Record<string, string> = {
   oneCorrectAnswer: 'Korrekt:',
   tsaNote: 'In Vergangenheit und Zukunft wird hier წა- verwendet, wo im Präsens die Formen mit მი- stehen.',
   daNote: 'და- (gewohnheitsmäßiges Gehen) gibt es nur im Präsens.',
-  footerPrefix: 'Gemacht mit 💙 von ',
+  footerPrefix: 'Gemacht mit 💚 von ',
   footerSuffix: ', Schülerin der AnidaBani Sprachschule',
   footerPrivacy: '✖ Kein Tracking · ✖ Keine Cookies',
 };

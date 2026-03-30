@@ -63,7 +63,7 @@ export const en: Record<string, string> = {
   oneCorrectAnswer: 'Correct:',
   tsaNote: 'For past and future, წა- is used here where present-tense forms use მი-.',
   daNote: 'და- (habitual movement) only exists in the present tense.',
-  footerPrefix: 'Made with 💙 by ',
+  footerPrefix: 'Made with 💚 by ',
   footerSuffix: ', student of AnidaBani Language School',
   footerPrivacy: '✖ No Tracking · ✖ No Cookies',
 };
